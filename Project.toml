@@ -1,0 +1,4 @@
+name = "Obsidian"
+uuid = "0a1fef19-5aa4-4284-b8c1-c1397acb49d1"
+authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
+version = "0.1.0"
