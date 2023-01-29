@@ -23,21 +23,52 @@ struct Vault
 end
 
 
+"""Beginning from directory `root`, create a dictionary
+of valid Obsidian link names to full file paths.
+"""
 function mapfiles(root, currmap = Dict())
-
     for f in readdir(root)
         if startswith(f, ".")
-            @warn("omit invisible $(f)")
+            @debug("omit invisible $(f)")
 
         elseif isdir(joinpath(root,f))
-            @info("DIRECTORY: $(f) ")
-        
+            @debug("DIRECTORY: $(f) ")
+            currmap = mapfiles(joinpath(root, f), currmap)
             
         elseif endswith(f, ".md")
-            @info("FILE: $(f)")
+            linkname = replace(f, ".md" => "")
+            currmap[linkname] = joinpath(root, f)
+            @debug("Link: $(linkname)")
         else
-            @warn("omit $(f)")
+            @debug("omit non-markdown file $(f)")
         end
     end
-    #Dict()
+    currmap
+end
+
+"""Parse Obsidian file f into optional yaml header and
+body section.
+"""
+function parsefile(f)
+    lines = readlines(f)
+    if lines[1] == "---"
+        idx = 2
+        headerlines = []
+        while (lines[idx] != "---")
+            push!(headerlines, lines[idx])
+            idx = idx + 1
+            @warn("$(idx): $(lines[idx])")
+        end
+        bodylines = []
+        idx = idx + 1
+        for ln in lines[idx:end]
+            push!(bodylines, ln)
+        end
+        (   header = join(headerlines, "\n"), 
+            body = join(bodylines, "\n")
+        )
+
+    else
+        (header = "", body = read(f) |> String)
+    end
 end
