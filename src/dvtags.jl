@@ -1,15 +1,5 @@
 
-"""Apply YAML package parse to a string.
-"""
-function parseyaml(s::T) where T <: AbstractString
-    YAML.load(IOBuffer(s))
-end
 
-
-function tagsfromyaml(s)
-    parsed = parseyaml(s)
-    haskey(parsed, "tags") ? parsed["tags"] : String[]
-end
 
 """TBA"""
 function kvfromyaml(s)
