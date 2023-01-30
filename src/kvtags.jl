@@ -28,17 +28,3 @@ initial = r"[^\([]+::"
 #=INLINE
 
 =#
-
-#=
-THIS IS FOR WIKIN links
-mdlinks = """This is some md with [[wiki links]] in the content [[everywhere]]!"""
-
-lnk = r"\[\[([^\]]+)]]"
-
-m = match(lnk, mdlinks)
-m.captures
-
-for m in eachmatch(lnk, mdlinks)
-    println(m.captures[1])
-end
-=#

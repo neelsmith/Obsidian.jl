@@ -4,7 +4,9 @@ using YAML
 
 using Documenter, DocStringExtensions
 
-include("dvtags.jl")
+
+include("tags_links.jl")
+include("kvtags.jl")
 include("vault.jl")
 include("files.jl")
 
