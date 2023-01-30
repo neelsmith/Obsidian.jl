@@ -1,6 +1,9 @@
 module Obsidian
 
+using YAML
 
+
+include("dvtags.jl")
 include("vault.jl")
 include("files.jl")
 
