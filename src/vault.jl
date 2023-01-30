@@ -45,30 +45,3 @@ function mapfiles(root; currmap = Dict(), omit = ["Templates"])
     end
     currmap
 end
-
-"""Parse Obsidian file f into optional yaml header and
-body section.
-"""
-function parsefile(f)
-    lines = readlines(f)
-    if lines[1] == "---"
-        idx = 2
-        headerlines = []
-        while (lines[idx] != "---")
-            push!(headerlines, lines[idx])
-            idx = idx + 1
-            @warn("$(idx): $(lines[idx])")
-        end
-        bodylines = []
-        idx = idx + 1
-        for ln in lines[idx:end]
-            push!(bodylines, ln)
-        end
-        (   header = join(headerlines, "\n"), 
-            body = join(bodylines, "\n")
-        )
-
-    else
-        (header = "", body = read(f) |> String)
-    end
-end
