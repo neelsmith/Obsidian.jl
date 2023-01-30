@@ -11,12 +11,19 @@ function tagsfromyaml(s)
     haskey(parsed, "tags") ? parsed["tags"] : String[]
 end
 
+"""TBA"""
+function kvfromyaml(s)
+    parsed = parseyaml(s)
+    #filter(parsed) so that key != "tags"
+    nothing
+end
 
-function tagsfrommd(s)
+function kvfrommd(s)
     initial = r"[^\([]+::"
     dvtag = r"[^[]\[([^\]]+)][^\]]"
     hiddendvtag = r"\(([^)]+)"
     # use eachmatch with each of those 3 regexen.
+    # Split into k-v pairs
     @warn("TBA")
     nothing
 end
