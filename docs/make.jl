@@ -11,12 +11,14 @@ Pkg.activate(".")
 Pkg.instantiate()
 
 using Documenter, DocStringExtensions
-using GreekSyntax
+using Obsidian
 
 makedocs(   
     sitename = "Obsidian",
     pages = [
         "Overview" => "index.md",
+        "Navigation" => "navigation.md",
+        "Key-value pairs in dataview format" => "dataview.md",
     ]
     )
 

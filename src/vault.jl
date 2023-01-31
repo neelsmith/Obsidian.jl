@@ -179,6 +179,36 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
 end
 
 function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
+
+    for f in readdir(root)
+        if startswith(f, ".") || f in omit
+            @debug("omit invisible $(f)")
+
+        elseif isdir(joinpath(root,f))
+            @debug("DIRECTORY: $(f) ")
+            idx = kvpagesindex(joinpath(root, f), idx, omit = omit)
+           
+        elseif endswith(f, ".md")
+            filelinkname = replace(f, ".md" => "")
+            kvlinks = kvpairs(joinpath(root, f))
+          
+            if isempty(kvlinks)
+            else
+                for l in kvlinks
+                    if haskey(idx, l)
+                        oldreff = idx[l]
+                        idx[l] =  push!(oldreff, filelinkname)
+                    else
+                        idx[l] = [filelinkname]
+                    end
+                end 
+            end
+        else
+            @debug("omit non-markdown file $(f)")
+        end
+    end
+    idx
+
 end
 
 function pageskvindex(root, idx = Dict(); omit = ["Templates"])

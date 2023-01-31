@@ -33,20 +33,5 @@ end
 """Apply YAML package parse to a string.
 """
 function parseyaml(s::T) where T <: AbstractString
-    YAML.load(IOBuffer(s))
+    isempty(s)  ?  Dict() :     YAML.load(IOBuffer(s))
 end
-
-"""Find any tags in YAML string `s`.
-$SIGNATURES
-"""
-function tagsfromyaml(s)
-    if isempty(s)
-        String[]
-    else
-        parsed = parseyaml(s)
-        haskey(parsed, "tags") ? parsed["tags"] : String[]
-    end
-end
-
-
-

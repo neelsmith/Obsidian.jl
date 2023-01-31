@@ -1,3 +1,11 @@
+"""Extract list of key-value pairs from file `f`.
+$(SIGNATURES)
+"""
+function kvpairs(f)
+    parsed = parsefile(f)
+    vcat(kvfrommd(parsed.body), kvfromyaml(parsed.header))
+end
+
 """Extract  key-value pairs.from YAML string `s`.
 Omit key `tags`.
 $(SIGNATURES)
@@ -32,11 +40,20 @@ function kvfrommd(s)
         end
         for m in eachmatch(dvtag, ln)
             parts = split(m.captures[1], "::")
-            push!(results, (k = parts[1], v = strip(parts[2])))
+
+            if length(parts) != 2
+                @warn("Bad syntax for kv link: matched $(m.captures)")
+            else
+                push!(results, (k = parts[1], v = strip(parts[2])))
+            end
         end
         for m in eachmatch(hiddendvtag, ln)
             parts = split(m.captures[1], "::")
-            push!(results, (k = parts[1], v = strip(parts[2])))
+            if length(parts) != 2
+                @warn("Bad syntax for kv link: matched $(m.captures)")
+            else
+                push!(results, (k = parts[1], v = strip(parts[2])))
+            end
         end
     end
     results
