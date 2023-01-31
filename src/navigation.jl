@@ -45,3 +45,15 @@ function tags(v::Vault, wikiname)
         String[]
     end
 end
+
+
+"""Find file path for wiki name.
+$(SIGNATURES)
+"""
+function path(v::Vault, wikiname) 
+    if haskey(v.filemap, wikiname)
+        v.filemap[wikiname]
+    else
+        nothing
+    end
+end

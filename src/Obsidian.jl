@@ -12,7 +12,9 @@ include("files.jl")
 include("navigation.jl")
 
 export Vault
+export path
 export linkson, linkedto
 export tags, tagged
+
 
 end # module Obsidian
