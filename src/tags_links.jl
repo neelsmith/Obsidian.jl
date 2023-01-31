@@ -5,10 +5,7 @@ $SIGNATURES
 """
 function links(s)
     linkre = r"\[\[([^\]]+)]]"
-
-    #m = match(linkre, s)
-
-    linklist = []
+    linklist = String[]
     for m in eachmatch(linkre, s)
         push!(linklist, m.captures[1])
     end
@@ -16,11 +13,16 @@ function links(s)
 end
 
 
+function tags(f)
+    parsed = parsefile(f)
+    mdtags(parsed.body)    
+end
 
-#=
-THIS IS FOR WIKI links
-mdlinks = """This is some md with [[wiki links]] in the content [[everywhere]]!"""
-
-
-
-=#
+"""Extract tags from markdown string. Tags are tokens beginning with pound sign `#`.
+$(SIGNATURES)
+"""
+function mdtags(md)
+    @info("Get tags from $(md)")
+    tokens = split(md, r"\s")
+    filter(t -> !isempty(t) && t[1] == '#', tokens)
+end
