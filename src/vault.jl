@@ -14,8 +14,8 @@ struct Vault
             mapfiles(dir, omit = omit),
             linkpagesindex(dir, omit = omit),
             pagelinksindex(dir, omit = omit),
-        nothing,
-        nothing,
+            tagpagesindex(dir, omit = omit),
+            pagetagsindex(dir, omit = omit),
         nothing,
         nothing
         )
@@ -40,8 +40,6 @@ function links(v::Vault, wikiname)
     @warn("TBA")
     nothing
 end
-
-
 
 
 """Finds list of pages in Vault `v`
@@ -86,8 +84,10 @@ function mapfiles(root; currmap = Dict(), omit = ["Templates"])
     currmap
 end
 
-
-function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
+"""Beginning from directory `root`, index wikiname for pages to all tags on that page.
+$(SIGNATURES)
+"""
+function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
     for f in readdir(root)
         if startswith(f, ".") || f in omit
             @debug("omit invisible $(f)")
@@ -152,27 +152,19 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
             
         elseif endswith(f, ".md")
             filelinkname = replace(f, ".md" => "")
-            @info("Get tags on page $(joinpath(root, f))")
-            #filedata = parsefile(joinpath(root, f))
             filelinks = links(String(read(joinpath(root, f))))
            
             if isempty(filelinks)
             else
                 for l in filelinks
-                    @info("GOT $(filelinks)")
                     if haskey(idx, l)
-                        @info("Already have entry for $(l)")
                         oldreff = idx[l]
                         idx[l] =  push!(oldreff, filelinkname)
                     else
                         idx[l] = [filelinkname]
                     end
-                end
-
-                
+                end 
             end
-            #currmap[linkname] = joinpath(root, f)
-            #@info("Link: $(filelinkname): $(filedata |> typeof)")
         else
             @debug("omit non-markdown file $(f)")
         end

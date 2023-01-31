@@ -12,17 +12,35 @@ function links(s)
     linklist
 end
 
-
+"""Extract tags from YAML header and markdown body of file `f`.
+$(SIGNATURES)
+"""
 function tags(f)
     parsed = parsefile(f)
-    mdtags(parsed.body)    
+    vcat(mdtags(parsed.body), yamltags(parsed.header))
 end
 
 """Extract tags from markdown string. Tags are tokens beginning with pound sign `#`.
 $(SIGNATURES)
 """
 function mdtags(md)
-    @info("Get tags from $(md)")
     tokens = split(md, r"\s")
     filter(t -> !isempty(t) && t[1] == '#', tokens)
+end
+
+"""Extract tag list from yaml string, and format list of values with preceding pound sign.
+$(SIGNATURES)
+"""
+function yamltags(yaml)
+    if isempty(yaml)
+        String[]
+    else
+        yamldict = parseyaml(yaml)
+        raw =  if typeof(yamldict) <: Dict && haskey(yamldict, "tags")
+            yamldict["tags"] 
+        else
+            String[]
+        end
+        map(s -> "#" * s, raw)
+    end
 end

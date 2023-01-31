@@ -13,7 +13,7 @@ function parsefile(f)
             while (lines[idx] != "---")
                 push!(headerlines, lines[idx])
                 idx = idx + 1
-                @warn("$(idx): $(lines[idx])")
+                @debug("$(idx): $(lines[idx])")
             end
             bodylines = []
             idx = idx + 1
