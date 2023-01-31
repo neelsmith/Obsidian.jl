@@ -17,15 +17,15 @@ struct Vault
                 pagelinksindex(dir, omit = omit),
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
-                nothing,
-                nothing
+                kvpagesindex(dir, omit = omit),
+                pageskvindex(dir, omit = omit)
             )
         else
             new(
                 dir,
                 mapfiles(dir, omit = omit),
                 linkpagesindex(dir, omit = omit),
-                pagelinksindex(dir, omit = omit),
+                pagelinksindex(dir, omit = omit ),
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
                 nothing,
@@ -35,42 +35,6 @@ struct Vault
     end
 end
 
-
-"""Finds list of pages in Vault `v`
-that link to wikiname `wikiname`.
-$(SIGNATURES)
-"""
-function linked(v::Vault, wikiname)
-    @warn("TBA")
-    nothing
-end
-
-"""Finds list of links on page `wikiname` in Vault `v`.
-$(SIGNATURES)
-"""
-function links(v::Vault, wikiname)
-    @warn("TBA")
-    nothing
-end
-
-
-"""Finds list of pages in Vault `v`
-that are tagged with tag `t`.
-$(SIGNATURES)
-"""
-function tagged(v::Vault, t)
-    @warn("TBA")
-    nothing
-end
-
-
-"""Finds list of tags on page `p` in Vault `v`.
-$(SIGNATURES)
-"""
-function tags(v::Vault, p)
-    @warn("TBA")
-    nothing
-end
 
 
 """Beginning from directory `root`, create a dictionary
@@ -121,7 +85,9 @@ function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
-
+"""Beginning from directory `root`, index tags to pages where that tag occurs.
+$(SIGNATURES)
+"""
 function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
     for f in readdir(root)
         if startswith(f, ".") || f in omit
@@ -193,7 +159,7 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
         elseif endswith(f, ".md")
             filelinkname = replace(f, ".md" => "")
             filelinks = links(String(read(joinpath(root, f))))
-           
+          
             if isempty(filelinks)
             else
                 for l in filelinks
@@ -212,3 +178,8 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
+function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
+end
+
+function pageskvindex(root, idx = Dict(); omit = ["Templates"])
+end

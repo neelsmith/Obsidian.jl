@@ -1,5 +1,3 @@
-
-
 """Extract wiki-style links from string `s`.
 $SIGNATURES
 """
@@ -32,6 +30,7 @@ function mdtags(md)
     taglist
 end
 
+
 """Extract tag list from yaml string, and format list of values with preceding pound sign.
 $(SIGNATURES)
 """
@@ -50,7 +49,5 @@ function yamltags(yaml)
         else
             String[]
         end
-        
-        
     end
 end

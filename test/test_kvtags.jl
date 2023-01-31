@@ -4,7 +4,6 @@
     parse1 = YAML.load_file(yamlfile)
     parse2 = Obsidian.parseyaml(yaml)
     @test parse1 == parse2
-
 end
 
 @testset "Test markdown notation" begin
@@ -29,5 +28,5 @@ tags:
 """
   kvpairs = Obsidian.kvfromyaml(yaml)
   @test length(kvpairs) == 3
-
 end
+

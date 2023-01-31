@@ -1,6 +1,3 @@
-
-
-
 """Extract  key-value pairs.from YAML string `s`.
 Omit key `tags`.
 $(SIGNATURES)
