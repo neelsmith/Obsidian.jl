@@ -14,7 +14,17 @@ end
   """
   kvpairs = Obsidian.kvfrommd(md)
   @test length(kvpairs) == 5
+  @test kvpairs[1] == (k = "Basic Field", v = "Value")
+  @test kvpairs[2] == (k = "**Bold Field**", v = "Nice!")
+  @test kvpairs[3] == (k = "field", v = "inline fields")
+  @test kvpairs[4] == (k = "field2", v = "on the same line")
+  @test kvpairs[5] == (k = "field3", v = "key")
 end
+
+
+
+
+
 
 @testset "Test yaml notation" begin
   yaml = """alias: "document"

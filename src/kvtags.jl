@@ -30,17 +30,16 @@ function kvfrommd(s)
     mdlines = split(s, r"[\r\n]")
 
     initialdv = r"^([^[:\(]+)::(.+)$"
-    dvtag = r"([^[\]]+])"
+    dvtag = r"[^[]\[([^[\]]+)]"
     hiddendvtag = r"\(([^)]+)"
     # use eachmatch with each of those 3 regexen.
     # Split into k-v pairs
     for ln in  mdlines
         for m in eachmatch(initialdv, ln)
-            push!(results, (k = m.captures[1], v = m.captures[2]))
+            push!(results, (k = m.captures[1], v = strip(m.captures[2])))
         end
         for m in eachmatch(dvtag, ln)
             parts = split(m.captures[1], "::")
-
             if length(parts) != 2
                 @warn("Bad syntax for kv link: matched $(m.captures)")
             else
