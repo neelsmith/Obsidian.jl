@@ -40,11 +40,17 @@ function yamltags(yaml)
         String[]
     else
         yamldict = parseyaml(yaml)
-        raw =  if typeof(yamldict) <: Dict && haskey(yamldict, "tags")
-            yamldict["tags"] 
+        if typeof(yamldict) <: Dict && haskey(yamldict, "tags")
+            raw = yamldict["tags"] 
+            if typeof(raw) <: AbstractString
+                "#" * raw
+            else
+                map(s -> "#" * s, raw)
+            end
         else
             String[]
         end
-        map(s -> "#" * s, raw)
+        
+        
     end
 end

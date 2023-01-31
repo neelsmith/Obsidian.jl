@@ -32,7 +32,6 @@ function linked(v::Vault, wikiname)
     nothing
 end
 
-
 """Finds list of links on page `wikiname` in Vault `v`.
 $(SIGNATURES)
 """
