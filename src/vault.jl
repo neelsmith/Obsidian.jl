@@ -68,7 +68,18 @@ function maptagstopage(root, tagtopagedict = Dict(); omit = ["Templates"])
             #if haskey(tagtopagedict
             if isempty(filelinks)
             else
-                @info("GOT $(filelinks)")
+                for l in filelinks
+                    @info("GOT $(filelinks)")
+                    if haskey(tagtopagedict, l)
+                        @info("Already have entry for $(l)")
+                        oldreff = tagtopagedict[l]
+                        tagtopagedict[l] =  push!(filelinkname, oldreff )
+                    else
+                        tagtopagedict[l] = [filelinkname]
+                    end
+                end
+
+                
             end
             #currmap[linkname] = joinpath(root, f)
             #@info("Link: $(filelinkname): $(filedata |> typeof)")
