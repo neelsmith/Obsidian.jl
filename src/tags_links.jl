@@ -24,8 +24,12 @@ end
 $(SIGNATURES)
 """
 function mdtags(md)
-    tokens = split(md, r"\s")
-    filter(t -> !isempty(t) && t[1] == '#', tokens)
+    taglist = String[]
+    tagre = r"(#[^#\s ]+)"
+    for m in eachmatch(tagre, md)
+        push!(taglist, m.captures[1])
+    end
+    taglist
 end
 
 """Extract tag list from yaml string, and format list of values with preceding pound sign.

@@ -94,11 +94,12 @@ function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
 
         elseif isdir(joinpath(root,f))
             @debug("DIRECTORY: $(f) ")
-            idx = tagpagesindex(joinpath(root, f), idx, omit = omit)
+            idx = pagetagsindex(joinpath(root, f), idx, omit = omit)
             
         elseif endswith(f, ".md")
             wikiname = replace(f, ".md" => "")
-            filetags = tags(f)
+            @debug("Get tags for $(f)")
+            filetags = tags(joinpath(root,f))
             idx[wikiname] = filetags
       
         else
@@ -109,8 +110,35 @@ function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
 end
 
 
-function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
-    []
+function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
+    for f in readdir(root)
+        if startswith(f, ".") || f in omit
+            @debug("omit invisible $(f)")
+
+        elseif isdir(joinpath(root,f))
+            @debug("DIRECTORY: $(f) ")
+            idx = tagpagesindex(joinpath(root, f), idx, omit = omit)
+            
+        elseif endswith(f, ".md")
+            filelinkname = replace(f, ".md" => "")
+            filetags = tags(joinpath(root,f))
+           
+            if isempty(filetags)
+            else
+                for l in filetags
+                    if haskey(idx, l)
+                        oldreff = idx[l]
+                        idx[l] =  push!(oldreff, filelinkname)
+                    else
+                        idx[l] = [filelinkname]
+                    end
+                end 
+            end
+        else
+            @debug("omit non-markdown file $(f)")
+        end
+    end
+    idx
 end
 
 """Beginning from directory `root`, index wiki names for pages to all links on that page.
