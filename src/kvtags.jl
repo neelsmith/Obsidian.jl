@@ -1,31 +1,47 @@
 
 
 
-"""TBA"""
+"""Extract  key-value pairs.from YAML string `s`.
+Omit key `tags`.
+$(SIGNATURES)
+"""
 function kvfromyaml(s)
     parsed = parseyaml(s)
-    #filter(parsed) so that key != "tags"
-    nothing
+    filter(pr -> pr[1] != "tags", parsed)    
 end
 
-"""TBA"""
+"""Extract from markdown string `s` key-value pairs encoded using the notation of the `dataview` plugin.
+There are three possible encodings for dataview key-value pairs: line-initial, inline, and hidden inline.
+See https://github.com/blacksmithgu/obsidian-dataview.
+
+We use regexen to pull out key-value pairs. Since regexen are line-oriented, we extract the key-value pairs line by line.
+
+Leading and trailing white space is trimmed from the value strings.
+
+$(SIGNATURES)
+"""
 function kvfrommd(s)
-    initial = r"[^\([]+::"
-    dvtag = r"[^[]\[([^\]]+)][^\]]"
+    results = NamedTuple{(:k, :v), Tuple{String, String}}[]
+    mdlines = split(s, r"[\r\n]")
+
+    initialdv = r"^([^[:\(]+)::(.+)$"
+    dvtag = r"([^[\]]+])"
     hiddendvtag = r"\(([^)]+)"
     # use eachmatch with each of those 3 regexen.
     # Split into k-v pairs
-    @warn("TBA")
-    nothing
+    for ln in  mdlines
+        for m in eachmatch(initialdv, ln)
+            push!(results, (k = m.captures[1], v = m.captures[2]))
+        end
+        for m in eachmatch(dvtag, ln)
+            parts = split(m.captures[1], "::")
+            push!(results, (k = parts[1], v = strip(parts[2])))
+        end
+        for m in eachmatch(hiddendvtag, ln)
+            parts = split(m.captures[1], "::")
+            push!(results, (k = parts[1], v = strip(parts[2])))
+        end
+    end
+    results
 end
 
-#=
-# Get line-initial from markdown
-initial = r"[^\([]+::"
- m = match(initial, s, 1)
- isnothing(m) ? nothing :  m.match
-=#
-
-#=INLINE
-
-=#
