@@ -8,17 +8,30 @@ struct Vault
     inkvpairs
     outkvpairs
 
-    function Vault(dir; omit = ["Templates"]) 
-        new(
-            dir,
-            mapfiles(dir, omit = omit),
-            linkpagesindex(dir, omit = omit),
-            pagelinksindex(dir, omit = omit),
-            tagpagesindex(dir, omit = omit),
-            pagetagsindex(dir, omit = omit),
-        nothing,
-        nothing
-        )
+    function Vault(dir; omit = ["Templates"], dataview = true) 
+        if dataview
+            new(
+                dir,
+                mapfiles(dir, omit = omit),
+                linkpagesindex(dir, omit = omit),
+                pagelinksindex(dir, omit = omit),
+                tagpagesindex(dir, omit = omit),
+                pagetagsindex(dir, omit = omit),
+                nothing,
+                nothing
+            )
+        else
+            new(
+                dir,
+                mapfiles(dir, omit = omit),
+                linkpagesindex(dir, omit = omit),
+                pagelinksindex(dir, omit = omit),
+                tagpagesindex(dir, omit = omit),
+                pagetagsindex(dir, omit = omit),
+                nothing,
+                nothing
+            )
+        end
     end
 end
 
