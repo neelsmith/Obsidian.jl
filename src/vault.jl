@@ -8,56 +8,33 @@ struct Vault
     inkvpairs
     outkvpairs
 
-    function Vault(dir; omit = ["Templates"]) 
-        new(
-            dir,
-            mapfiles(dir, omit = omit),
-            linkpagesindex(dir, omit = omit),
-            pagelinksindex(dir, omit = omit),
-            tagpagesindex(dir, omit = omit),
-            pagetagsindex(dir, omit = omit),
-        nothing,
-        nothing
-        )
+    function Vault(dir; omit = ["Templates"], dataview = true) 
+        if dataview
+            new(
+                dir,
+                mapfiles(dir, omit = omit),
+                linkpagesindex(dir, omit = omit),
+                pagelinksindex(dir, omit = omit),
+                tagpagesindex(dir, omit = omit),
+                pagetagsindex(dir, omit = omit),
+                kvpagesindex(dir, omit = omit),
+                pageskvindex(dir, omit = omit)
+            )
+        else
+            new(
+                dir,
+                mapfiles(dir, omit = omit),
+                linkpagesindex(dir, omit = omit),
+                pagelinksindex(dir, omit = omit ),
+                tagpagesindex(dir, omit = omit),
+                pagetagsindex(dir, omit = omit),
+                nothing,
+                nothing
+            )
+        end
     end
 end
 
-
-"""Finds list of pages in Vault `v`
-that link to wikiname `wikiname`.
-$(SIGNATURES)
-"""
-function linked(v::Vault, wikiname)
-    @warn("TBA")
-    nothing
-end
-
-"""Finds list of links on page `wikiname` in Vault `v`.
-$(SIGNATURES)
-"""
-function links(v::Vault, wikiname)
-    @warn("TBA")
-    nothing
-end
-
-
-"""Finds list of pages in Vault `v`
-that are tagged with tag `t`.
-$(SIGNATURES)
-"""
-function tagged(v::Vault, t)
-    @warn("TBA")
-    nothing
-end
-
-
-"""Finds list of tags on page `p` in Vault `v`.
-$(SIGNATURES)
-"""
-function tags(v::Vault, p)
-    @warn("TBA")
-    nothing
-end
 
 
 """Beginning from directory `root`, create a dictionary
@@ -108,7 +85,9 @@ function pagetagsindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
-
+"""Beginning from directory `root`, index tags to pages where that tag occurs.
+$(SIGNATURES)
+"""
 function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
     for f in readdir(root)
         if startswith(f, ".") || f in omit
@@ -180,7 +159,7 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
         elseif endswith(f, ".md")
             filelinkname = replace(f, ".md" => "")
             filelinks = links(String(read(joinpath(root, f))))
-           
+          
             if isempty(filelinks)
             else
                 for l in filelinks
@@ -199,3 +178,38 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
+function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
+
+    for f in readdir(root)
+        if startswith(f, ".") || f in omit
+            @debug("omit invisible $(f)")
+
+        elseif isdir(joinpath(root,f))
+            @debug("DIRECTORY: $(f) ")
+            idx = kvpagesindex(joinpath(root, f), idx, omit = omit)
+           
+        elseif endswith(f, ".md")
+            filelinkname = replace(f, ".md" => "")
+            kvlinks = kvpairs(joinpath(root, f))
+          
+            if isempty(kvlinks)
+            else
+                for l in kvlinks
+                    if haskey(idx, l)
+                        oldreff = idx[l]
+                        idx[l] =  push!(oldreff, filelinkname)
+                    else
+                        idx[l] = [filelinkname]
+                    end
+                end 
+            end
+        else
+            @debug("omit non-markdown file $(f)")
+        end
+    end
+    idx
+
+end
+
+function pageskvindex(root, idx = Dict(); omit = ["Templates"])
+end
