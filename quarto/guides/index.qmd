@@ -1,0 +1,6 @@
+---
+title: "Guides"
+---
+
+Recipe book for working with `Obsidian.jl`
+

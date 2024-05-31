@@ -1,0 +1,11 @@
+---
+title: "Obsidian.jl"
+---
+
+Concepts and implementation in a Julia interface.
+
+
+| | Learning the package | Using the package |
+| --- | --- | --- |
+| **Hands-on** |  Try a [tutorial](./tutorials/) to start using  the package  | Find [recipes](./guides/) for specific tasks |
+| **Cognition** | Learn [concepts](./concepts/)   | See [reference information](./reference/) (including API documentation for all exported functions) |
