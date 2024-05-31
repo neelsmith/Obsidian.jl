@@ -2,4 +2,4 @@
 title: Tutorials
 ---
 
-Learn `Obsidian.jl`.
+Start with these tutorials to learn `Obsidian.jl`.

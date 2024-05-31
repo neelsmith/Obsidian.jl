@@ -3,4 +3,4 @@ title: Concepts
 ---
 
 
-Grok Obsidian.
+An Obsidian vault is just a directory with markdown content. In addition to standard Markdown, the Obsidian app supports wiki-style links for navigating within your vault, and tags beginning with `#` to add metadata to your notes.
