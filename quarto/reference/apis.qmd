@@ -1,0 +1,73 @@
+---
+title: "API documentation"
+---
+
+Exported functions:
+
+
+
+
+`Vault` 
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+using Obsidian
+@doc Vault
+```
+:::
+
+
+ 
+`path`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc path
+```
+:::
+
+`linkson`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc linkson
+```
+:::
+
+`linkedto`
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc linkedto
+```
+:::
+
+`tags`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc tags
+```
+:::
+
+
+`tagged`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc tagged
+```
+:::
