@@ -5,25 +5,10 @@ title: "Obsidian.jl"
 Concepts and implementation in a Julia interface.
 
 
-You can construct a `Vault` from a directory in your file system.
 
-We've predefined the variable `root` to point to the base directory of this repository, and will use a sample Obsidian vault in its `test/data` directory.
+By default, a `Vault` includes an index of key-value pairs in thge syntax of the `dataview` plugin to notes in the vault.
 
-```{julia}
-root = pwd() |> dirname
-```
-
-```{julia}
-vaultdir = joinpath(root, "test", "data", "presidents-vault")
-isdir(vaultdir)
-```
-
-```{julia}
-using Obsidian
-v = Vault(vaultdir)
-v isa Vault
-```
-
+Version `0.3.0` will add functions to simplify looking up and retrieving values from these indexes.
 
 
 | | Learning the package | Using the package |
