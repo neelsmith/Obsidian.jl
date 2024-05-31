@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: a16c16ab-c096-4dc9-91bc-4db59dfef705
+      url: 'https://neelsmith.quarto.pub/obsidian'
