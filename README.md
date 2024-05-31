@@ -8,4 +8,6 @@ But javascript is not my favorite language, so `Obsidian.jl` indexes your vault 
 
 In addition, the [dataview plugin](https://github.com/blacksmithgu/obsidian-dataview) adds a notation for key-value pairs. By default, `Obsidian.jl` also  indexes these k-v pairs.
 
+
 To see how it works, see the [documentation](https://neelsmith.quarto.pub/obsidian/).
+
