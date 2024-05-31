@@ -4,3 +4,5 @@ Manifest.toml
 scratch/
 .obsidian/
 docs/build/
+_site/
+_freeze/

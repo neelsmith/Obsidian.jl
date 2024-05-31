@@ -1,0 +1,26 @@
+---
+title: "Obsidian.jl"
+---
+
+
+> *Work with [Obsidian vaults](https://obsidian.md) in  Julia*.
+
+An Obsidian vault is just a directory with markdown content. In addition to standard Markdown, the Obsidian app supports wiki-style links for navigating within your vault, and tags beginning with `#` to add metadata to your notes.
+
+But javascript is not my favorite language, so `Obsidian.jl` indexes your vault in much the same way as the Obsidian app:  you can find incoming and outgoing links to pages,  tags occurring on pages or all tags on a page.
+
+In addition, the [dataview plugin](https://github.com/blacksmithgu/obsidian-dataview) adds a notation for key-value pairs. By default, `Obsidian.jl` also  indexes these k-v pairs.
+
+
+
+| | Learning the package | Using the package |
+| --- | --- | --- |
+| **Hands-on** |  Try a [tutorial](./tutorials/) to start using  the package  | Find [recipes](./guides/) for specific tasks |
+| **Cognition** | Learn [concepts](./concepts/)   | See [reference information](./reference/) (including API documentation for all exported functions) |
+
+
+## Status
+
+By default, a `Vault` includes an index of key-value pairs in the syntax of the `dataview` plugin to notes in the vault.
+
+Version `0.3.0` will add functions to simplify looking up and retrieving values from these indexes.

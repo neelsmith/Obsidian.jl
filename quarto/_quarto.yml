@@ -1,0 +1,60 @@
+project:
+  type: website
+jupyter: julia-1.10  
+theme: spacelab
+execute:
+  freeze: auto
+date: last-modified  
+margin-header: "Package version `0.2.0`"
+format:
+  html: 
+    toc: true
+
+
+website:
+  title: "obsidian"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        file: index.qmd
+      - text: "Concepts"
+        file: concepts/index.qmd           
+      - text: "Tutorials"
+        file: tutorials/index.qmd          
+      - text: "Guides"
+        file: guides/index.qmd           
+      - text: "Reference"
+        file: reference/index.qmd  
+    right:   
+      - icon: github
+        href: https://github.com/neelsmith/Obsidian.jl
+        aria-label: GitHub
+
+  sidebar:
+    - title: "Tutorials"
+      contents: 
+        - tutorials/index.qmd
+        - tutorials/navigation.qmd
+
+    - title: "Guides"
+      contents:
+        - guides/index.qmd
+
+    - title: "Reference"
+      contents: 
+        - reference/index.qmd
+        - reference/apis.qmd
+
+    - title: "Concepts"
+      contents: 
+        - concepts/index.qmd
+
+        
+
+    - title: "Home"
+      contents:
+        - index.qmd               
+ 
+
