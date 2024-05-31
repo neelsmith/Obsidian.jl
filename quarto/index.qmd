@@ -5,6 +5,27 @@ title: "Obsidian.jl"
 Concepts and implementation in a Julia interface.
 
 
+You can construct a `Vault` from a directory in your file system.
+
+We've predefined the variable `root` to point to the base directory of this repository, and will use a sample Obsidian vault in its `test/data` directory.
+
+```{julia}
+root = pwd() |> dirname
+```
+
+```{julia}
+vaultdir = joinpath(root, "test", "data", "presidents-vault")
+isdir(vaultdir)
+```
+
+```{julia}
+using Obsidian
+v = Vault(vaultdir)
+v isa Vault
+```
+
+
+
 | | Learning the package | Using the package |
 | --- | --- | --- |
 | **Hands-on** |  Try a [tutorial](./tutorials/) to start using  the package  | Find [recipes](./guides/) for specific tasks |

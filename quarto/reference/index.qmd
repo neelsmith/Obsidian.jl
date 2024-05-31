@@ -6,13 +6,3 @@ Look it up here.
 
 
 
-`f` 
-
-:::{.callout-note appearance="minimal"}
-```{julia}
-#| echo: false
-#| warning: false
-using YourPackage
-@doc f
-```
-:::
