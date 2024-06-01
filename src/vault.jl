@@ -209,7 +209,7 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
 end
 
 function kvtriples(root; omit = ["Templates"])
-    []
+    
 end
 
 #=
@@ -250,6 +250,20 @@ function pageskvindex(root, idx = Dict(); omit = ["Templates"])
 end
 =#
 """Find list of key-value pairs for a given note in a vault.
+The result is a Vector of named tuples with fields `k` and `v`.
+
+
+**Example**
+
+```juliarepl
+julia> kvpairs(v, notenames[1])
+3-element Vector{Any}:
+ (k = "sequence", v = "16")
+ (k = "hiddensequence", v = "16")
+ Dict{Any, Any}()
+```
+
+
 $(SIGNATURES)
 """
 function kvpairs(v::Vault, note)

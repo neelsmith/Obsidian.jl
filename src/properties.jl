@@ -28,6 +28,6 @@ end
 """Identify the property value for a `NoteKV`.
 $(SIGNATURES)
 """
-function key(triple::NoteKV)
+function value(triple::NoteKV)
     triple.value
 end

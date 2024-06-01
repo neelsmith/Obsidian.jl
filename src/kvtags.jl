@@ -1,16 +1,24 @@
 
-"""Extract list of key-value pairs from file `f`.
+"""Extract list of key-value pairs from file `f`. 
+The results is a Vector of named tuples with two fields,
+`k` and `v`.
+
+**Example**
+
+```juliarepl
+julia> kvpairs("/path/to/file.md")
+3-element Vector{Any}:
+ (k = "sequence", v = "16")
+ (k = "hiddensequence", v = "16")
+ Dict{Any, Any}()
+```
+
 $(SIGNATURES)
 """
 function kvpairs(f)
     parsed = parsefile(f)
     vcat(kvfrommd(parsed.body), kvfromyaml(parsed.header))
 end
-
-
-
-
-
 
 """Extract  key-value pairs.from YAML string `s`.
 Omit key `tags`.
@@ -21,9 +29,8 @@ function kvfromyaml(s)
     filter(pr -> pr[1] != "tags", parsed)    
 end
 
-"""Extract from markdown string `s` key-value pairs encoded using the notation of the `dataview` plugin.
-There are three possible encodings for dataview key-value pairs: line-initial, inline, and hidden inline.
-See https://github.com/blacksmithgu/obsidian-dataview.
+"""Extract from markdown string `s` any key-value pairs encoded using the notation of the `dataview` plugin.
+There are three possible encodings for dataview key-value pairs: line-initial, inline, and hidden inline. See https://github.com/blacksmithgu/obsidian-dataview.
 
 We use regexen to pull out key-value pairs. Since regexen are line-oriented, we extract the key-value pairs line by line.
 
