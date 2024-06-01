@@ -2,7 +2,7 @@
 title: Reference
 ---
 
-Look it up here.
+See [API documentation](apis.qmd) on all exported functions and types.
 
 
 
