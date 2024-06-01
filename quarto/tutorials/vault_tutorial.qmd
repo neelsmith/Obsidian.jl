@@ -21,7 +21,7 @@ v isa Vault
 
 ## Wikinames and files
 
-Obsidian identifies notes by the name of its plain-text file, without any extension. We refer to this as its "wikiname," since this reference can be used as a link anywhere in the vault without knowledge of the note's location in the vault.
+Obsidian identifies notes by the name of their plain-text files, minus any extension. We refer to this as its "wikiname," since this reference can be used as a link anywhere in the vault without knowledge of the note's location in the vault.
 
 To find the names Obsidian uses for all notes in a vault, use the `wikinames` function:
 

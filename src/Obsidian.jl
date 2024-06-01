@@ -18,4 +18,6 @@ export linkson, linkedto
 export tags, tagged
 
 
+export kvpairs
+
 end # module Obsidian

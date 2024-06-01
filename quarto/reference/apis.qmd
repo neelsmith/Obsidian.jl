@@ -80,3 +80,15 @@ using Obsidian
 @doc tagged
 ```
 :::
+
+
+
+`kvpairs`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc kvpairs
+```
+:::

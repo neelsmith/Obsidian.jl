@@ -240,3 +240,10 @@ end
 
 function pageskvindex(root, idx = Dict(); omit = ["Templates"])
 end
+
+"""Extract list of key-value pairs from a given note in a vault.
+$(SIGNATURES)
+"""
+function kvpairs(v::Vault, note)
+    path(v, note) |> kvpairs
+end
