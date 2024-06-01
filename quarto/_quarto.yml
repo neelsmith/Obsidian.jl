@@ -5,7 +5,7 @@ theme: spacelab
 execute:
   freeze: auto
 date: last-modified  
-margin-header: "Package version `0.3.0`"
+margin-header: "Documentaion for unpublished version in development: `0.3.0`"
 format:
   html: 
     toc: true
