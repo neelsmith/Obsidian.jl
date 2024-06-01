@@ -1,4 +1,4 @@
-# Create a web site from an Obsidian vault
+# Creating a web site from an Obsidian vault
 
 
 ::: {.callout-tip title="Background information"}

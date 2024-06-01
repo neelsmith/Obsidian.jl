@@ -1,12 +1,15 @@
 # Key-value properties
 
 
-## YAML
+Metadata composed of key-value pair may be incorporated in Obsidian notes as:
 
-## In-line fields
+- a [YAML file header](https://help.obsidian.md/Editing+and+formatting/Properties#Property%20format)
+- [in-line fields](https://blacksmithgu.github.io/obsidian-dataview/annotation/add-metadata/#inline-fields), as defined by the `dataview` plugin
+
+::: {.callout-caution title="TBA"}
+Outline of contents to be added
+:::
 
 
-
-
-
-In addition, it indexes inline fields with key-value pairs in the notation defined by the dataview plugin.
+- find pages and values for key
+- find pages for key-value pair

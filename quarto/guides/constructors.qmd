@@ -1,0 +1,12 @@
+# Options for creating `Vault`s
+
+
+
+::: {.callout-caution title="TBA"}
+Outline of contents to be added
+:::
+
+
+- omit sections
+- dataview include/exclude dataview indexing
+
