@@ -1,3 +1,6 @@
+"""Julia structure for an Obsidian vault.
+$(SIGNATURES)
+"""
 struct Vault
     root
     filemap
@@ -8,6 +11,9 @@ struct Vault
     inkvpairs
     outkvpairs
 
+    """Construct a Vault from a given directory.
+    $(SIGNATURES)
+    """
     function Vault(dir; omit = ["Templates"], dataview = true) 
         if dataview
             new(
@@ -35,7 +41,25 @@ struct Vault
     end
 end
 
+"""
+Construct a Vault from current working directory.
 
+$(SIGNATURES)
+"""
+function Vault(;  omit = ["Templates"], dataview = true)
+    Vault(pwd(); omit = omit, dataview = dataview)
+end
+
+"""Find all valid Obsidian names for files in a vault.
+$(SIGNATURES)
+"""
+function filenames(v::Vault)
+    keys(mapfiles(v)) |> collect |> sort
+end
+
+function mapfiles(v::Vault)
+    mapfiles(v.root)
+end
 
 """Beginning from directory `root`, create a dictionary
 of valid Obsidian link names to full file paths.

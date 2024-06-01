@@ -12,6 +12,7 @@ include("files.jl")
 include("navigation.jl")
 
 export Vault
+export wikinames
 export path
 export linkson, linkedto
 export tags, tagged

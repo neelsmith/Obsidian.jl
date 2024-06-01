@@ -18,6 +18,15 @@ using Obsidian
 ```
 :::
 
+`wikinames`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc wikinames
+```
+:::
 
  
 `path`
