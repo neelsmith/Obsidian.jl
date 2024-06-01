@@ -17,7 +17,9 @@ $(SIGNATURES)
 """
 function kvpairs(f)
     parsed = parsefile(f)
-    vcat(kvfrommd(parsed.body), kvfromyaml(parsed.header))
+    yamlout = kvfromyaml(parsed.header)
+    @info("YAML parsing yields $(yamlout)")
+    vcat(kvfrommd(parsed.body), yamlout)
 end
 
 """Extract  key-value pairs.from YAML string `s`.
@@ -26,7 +28,20 @@ $(SIGNATURES)
 """
 function kvfromyaml(s)
     parsed = parseyaml(s)
-    filter(pr -> pr[1] != "tags", parsed)    
+    if isnothing(parsed) 
+        []
+    else 
+        notags = filter(pr -> pr[1] != "tags", parsed)    
+        if isempty(notags)
+            []
+        else
+            results = []
+            for k in keys(notags)
+                push!(results, (k = k, v = notags[k]))
+            end
+            results
+        end
+    end
 end
 
 """Extract from markdown string `s` any key-value pairs encoded using the notation of the `dataview` plugin.

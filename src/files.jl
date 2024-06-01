@@ -33,5 +33,5 @@ end
 """Apply YAML package parse to a string.
 """
 function parseyaml(s::T) where T <: AbstractString
-    isempty(s)  ?  Dict() :     YAML.load(IOBuffer(s))
+    isempty(s)  ?  nothing :     YAML.load(IOBuffer(s))
 end

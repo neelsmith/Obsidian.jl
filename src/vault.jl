@@ -208,8 +208,18 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
-function kvtriples(root; omit = ["Templates"])
-    
+function kvtriples(v::Vault)
+    results = NoteKV[]
+    for pg in wikinames(v)
+        for pr in kvpairs(v, pg)
+            if isempty(pr)
+            else
+                @info("Look at $(pr)")
+                push!(results, NoteKV(pg, pr.k, pr.v))
+            end
+        end
+    end
+    results
 end
 
 #=
