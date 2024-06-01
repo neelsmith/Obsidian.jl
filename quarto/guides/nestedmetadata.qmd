@@ -9,3 +9,5 @@ Outline of contents to be added
 
 - each vault's vector of `NoteKV` triples maintains a simple pairing of key and value. If the value in turn is a more complex structure (such as a dictionary of further k/v metdata), you'll need to understand that in order to use it.
 - either keep your metadata structures simple, or understand how to work with them.
+
+Example: in sample vault, "Springfield, Sangamon, Illinois" has yaml data with a `geo` property pointint to a Dict with "lon" and "lat" values

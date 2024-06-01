@@ -208,8 +208,33 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
+function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
+    for f in readdir(root)
+        if startswith(f, ".") || f in omit
+            @debug("omit file $(f) (invisible, or on omit list)")
+
+        elseif isdir(joinpath(root,f))
+            @debug("DIRECTORY: $(f) ")
+            triples = kvtriples(joinpath(root, f), triples, omit = omit)
+            
+        elseif endswith(f, ".md")
+            pgname = replace(f, ".md" => "")
+            @info("Working on file $(f)")
+            for pr in kvpairs(joinpath(root,f))
+                if isempty(pr)
+                else
+                    @info("Look at $(pr)")
+                    push!(triples, NoteKV(pgname, pr.k, pr.v))
+                end
+            end
+        end
+    end
+    triples
+end
+
 function kvtriples(v::Vault)
     results = NoteKV[]
+
     for pg in wikinames(v)
         for pr in kvpairs(v, pg)
             if isempty(pr)
