@@ -8,8 +8,9 @@ struct Vault
     outlinks
     intags
     outtags
-    inkvpairs
-    outkvpairs
+    kvtriples
+    #inkvpairs
+    #outkvpairs
 
     """Construct a Vault from a given directory.
     $(SIGNATURES)
@@ -23,8 +24,10 @@ struct Vault
                 pagelinksindex(dir, omit = omit),
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
-                kvpagesindex(dir, omit = omit),
-                pageskvindex(dir, omit = omit)
+                kvtriples(dir, omit = omit)
+
+                #kvpagesindex(dir, omit = omit),
+                #pageskvindex(dir, omit = omit)
             )
         else
             new(
@@ -205,6 +208,11 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
+function kvtriples(root; omit = ["Templates"])
+    []
+end
+
+#=
 function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
 
     for f in readdir(root)
@@ -240,10 +248,21 @@ end
 
 function pageskvindex(root, idx = Dict(); omit = ["Templates"])
 end
-
-"""Extract list of key-value pairs from a given note in a vault.
+=#
+"""Find list of key-value pairs for a given note in a vault.
 $(SIGNATURES)
 """
 function kvpairs(v::Vault, note)
     path(v, note) |> kvpairs
+end
+
+"""Find list of key-value pairs for a given note in a vault.
+$(SIGNATURES)
+"""
+function kvmap(v::Vault)
+    kvdict = Dict()
+    for wn in wikinames(v)
+        kvlist = kvpairs(v, wn)
+        @info("pg $wn has $(kvlist)")
+    end
 end
