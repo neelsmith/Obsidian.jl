@@ -5,7 +5,5 @@ title: Tutorials
 Start with these tutorials to learn `Obsidian.jl`.
 
 
-
-You can find incoming and outgoing links to pages, tags occurring on pages or all tags on a page.
-
-In addition, it indexes inline fields with key-value pairs in the notation defined by the dataview plugin.
+- [Obsidian vaults](./vault_tutorial.qmd): learn how to construct a vault, find incoming and outgoing links to notes, and use metadata tags on notes.
+- [Key-value properties](./properties_tutorial.qmd): learn how to use more complex metadata structured as key-value pairs.

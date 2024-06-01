@@ -1,0 +1,12 @@
+# Key-value properties
+
+
+## YAML
+
+## In-line fields
+
+
+
+
+
+In addition, it indexes inline fields with key-value pairs in the notation defined by the dataview plugin.

@@ -53,10 +53,13 @@ end
 """Find all valid Obsidian names for files in a vault.
 $(SIGNATURES)
 """
-function filenames(v::Vault)
+function wikinames(v::Vault)
     keys(mapfiles(v)) |> collect |> sort
 end
 
+"""Create a dictionary of valid Obsidian link names to full file paths.
+$(SIGNATURES)
+"""
 function mapfiles(v::Vault)
     mapfiles(v.root)
 end

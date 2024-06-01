@@ -12,7 +12,7 @@ YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
 DocStringExtensions = "0.9"
-Documenter = "0.27"
+Documenter = "0.27, 1"
 TestSetExtensions = "2"
 YAML = "0.4"
 julia = "1"

@@ -36,7 +36,8 @@ website:
     - title: "Tutorials"
       contents: 
         - tutorials/index.qmd
-        - tutorials/navigation.qmd
+        - tutorials/vault_tutorial.qmd
+        - tutorials/properties_tutorial.qmd
 
     - title: "Guides"
       contents:
