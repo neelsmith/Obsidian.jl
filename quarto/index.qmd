@@ -20,6 +20,5 @@ In addition, it indexes inline fields with key-value pairs in the notation defin
 
 ## Status
 
-By default, a `Vault` includes an index of key-value pairs in the syntax of the `dataview` plugin to notes in the vault.
 
-Version `0.3.0` will add functions to simplify looking up and retrieving values from these indexes.
+Version `0.3.0` is in development. It simplifies working with key-value metdata, and adds functions for rewriting Obsidian notes as pure markdown.

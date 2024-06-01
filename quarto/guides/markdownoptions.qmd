@@ -1,0 +1,10 @@
+# Creating pure Markdown content from Obsidan notes
+
+
+::: {.callout-caution title="TBA"}
+Outline of contents to be added
+:::
+
+- YAML may be stripped out or included
+- tags may be stripped out or included
+- hidden inline properties are always stripped; visible inline properties may be stripped or included

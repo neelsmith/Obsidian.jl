@@ -5,7 +5,7 @@ theme: spacelab
 execute:
   freeze: auto
 date: last-modified  
-margin-header: "Documentaion for unpublished version in development: `0.3.0`"
+margin-header: "Documentation for unpublished version in development: `0.3.0`"
 format:
   html: 
     toc: true
@@ -42,6 +42,8 @@ website:
     - title: "Guides"
       contents:
         - guides/index.qmd
+        - guides/markdownoptions.qmd
+        - guides/website.qmd
 
     - title: "Reference"
       contents: 

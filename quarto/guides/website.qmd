@@ -1,0 +1,12 @@
+# Create a web site from an Obsidian vault
+
+::: {.callout-caution title="TBA"}
+Outline of contents to be added
+:::
+
+Before beginning: see guide on creating pure Markdown from Obsidian notes
+
+
+1. map all pages to pure Markdown
+2. map all pages to destination file
+3. write Markdown to destination file

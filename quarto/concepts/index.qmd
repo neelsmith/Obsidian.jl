@@ -28,5 +28,5 @@ In addition to properties defined in a note's YAML header, `dataview` defines a 
 
 ## `Obsidian.jl`
 
-Julia's excellent infrastructure around Markdown make it an appealing language for using Obsidian vaults outside the Obsidian app. The main goal of `Obsidian.jl` is to provide functionality for Obsidian content that is not pure Markdown: standard Obsidian's wiki links, tags, and properties, and the dataview plugin's format for inlink links.
+Julia's excellent infrastructure around Markdown makes it an appealing language for using content in Obsidian vaults. The main goal of `Obsidian.jl` is to implement functionality for Obsidian content that is not pure Markdown: standard Obsidian's wiki links, tags, and properties, and the dataview plugin's format for inlink links.
 
