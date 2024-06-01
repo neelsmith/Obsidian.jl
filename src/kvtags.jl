@@ -1,6 +1,6 @@
 
 """Extract list of key-value pairs from file `f`. 
-The results is a Vector of named tuples with two fields,
+The result is a Vector of named tuples with two fields,
 `k` and `v`.
 
 **Example**
