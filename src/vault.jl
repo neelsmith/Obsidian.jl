@@ -53,10 +53,23 @@ function Vault(;  omit = ["Templates"], dataview = true)
     Vault(pwd(); omit = omit, dataview = dataview)
 end
 
+
+"""Override Base.show for `Vault`.
+$(SIGNATURES)
+"""
+function show(io::IO, v::Vault)
+    count = wikinames(v) |> length
+    suffix = count == 1 ? "" : "s"
+    str = string("Obisidan vault with $count note$suffix" )
+    show(io,str)
+end
+
+
+
 """Find all valid Obsidian names for files in a vault.
 $(SIGNATURES)
 """
-function wikinames(v::Vault)
+function wikinames(v::Vault)::Vector{String}
     keys(mapfiles(v)) |> collect |> sort
 end
 
@@ -219,11 +232,11 @@ function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
             
         elseif endswith(f, ".md")
             pgname = replace(f, ".md" => "")
-            @info("Working on file $(f)")
+            @debug("Working on file $(f)")
             for pr in kvpairs(joinpath(root,f))
                 if isempty(pr)
                 else
-                    @info("Look at $(pr)")
+                    @debug("Look at $(pr)")
                     push!(triples, NoteKV(pgname, pr.k, pr.v))
                 end
             end
@@ -233,6 +246,8 @@ function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
 end
 
 function kvtriples(v::Vault)
+    v.kvtriples
+    #=
     results = NoteKV[]
 
     for pg in wikinames(v)
@@ -245,6 +260,7 @@ function kvtriples(v::Vault)
         end
     end
     results
+    =#
 end
 
 #=
@@ -314,4 +330,37 @@ function kvmap(v::Vault)
         kvlist = kvpairs(v, wn)
         @info("pg $wn has $(kvlist)")
     end
+end
+
+
+"""Find pairings of pagenames and values for a given key
+in a key-value property.
+
+$(SIGNATURES)
+"""
+function valueslist(v::Vault, k)
+    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
+    for triple in filter(trip -> key(trip) == k, kvtriples(v))
+        push!(results,(wikiname = wikiname(triple), value = value(triple)))
+    end
+    results
+end
+
+
+function valueslist(v::Vault, pages::Vector{String}, k)
+    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
+    for triple in filter(trip -> key(trip) == k && wikiname(trip) in pages, kvtriples(v))
+        push!(results,(wikiname = wikiname(triple), value = value(triple)))
+    end
+    results
+end
+
+function noteslist(vlt::Vault, k,v)::Vector{String}
+    results = String[]
+    @info("Look for k/v $(k)/$(v)")
+    for triple in filter(trip -> key(trip) == k && value(trip) == v, kvtriples(vlt))
+        push!(results, wikiname(triple))
+    end
+    results
+
 end

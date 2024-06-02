@@ -18,7 +18,7 @@ $(SIGNATURES)
 function kvpairs(f)
     parsed = parsefile(f)
     yamlout = kvfromyaml(parsed.header)
-    @info("YAML parsing yields $(yamlout)")
+    @debug("YAML parsing yields $(yamlout)")
     vcat(kvfrommd(parsed.body), yamlout)
 end
 

@@ -1,6 +1,7 @@
 module Obsidian
 
 using YAML
+import Base: show
 
 using Documenter, DocStringExtensions
 
@@ -17,8 +18,10 @@ export wikinames
 export path
 export linkson, linkedto
 export tags, tagged
+export kvtriples, valueslist, noteslist
 
 export NoteKV
+export wikiname, key, value
 
 export kvpairs
 
