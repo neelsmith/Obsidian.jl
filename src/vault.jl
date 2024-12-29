@@ -9,8 +9,6 @@ struct Vault
     intags
     outtags
     kvtriples
-    #inkvpairs
-    #outkvpairs
 
     """Construct a Vault from a given directory.
     $(SIGNATURES)
@@ -53,7 +51,6 @@ function Vault(;  omit = ["Templates"], dataview = true)
     Vault(pwd(); omit = omit, dataview = dataview)
 end
 
-
 """Override Base.show for `Vault`.
 $(SIGNATURES)
 """
@@ -63,7 +60,6 @@ function show(io::IO, v::Vault)
     str = string("Obsidian vault with $count note$suffix" )
     show(io,str)
 end
-
 
 
 """Find all valid Obsidian names for files in a vault.
@@ -221,6 +217,10 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
+
+"""Collect all key-value pairs annotating each Obsidian note in a directory.
+$(SIGNATURES)
+"""
 function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
     for f in readdir(root)
         if startswith(f, ".") || f in omit

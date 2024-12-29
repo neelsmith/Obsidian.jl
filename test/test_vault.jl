@@ -14,4 +14,9 @@ end
     for wname in ["Hammond letter 7", "Stephen Ayres", "Will of Stephen Ayres", "intro"]
         @test wname in wnames
     end
+
+    letter7pairs = kvpairs(v, "Hammond letter 7")
+    @test length(letter7pairs) == 2
+    
+
 end

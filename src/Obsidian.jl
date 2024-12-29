@@ -12,6 +12,10 @@ include("kvtags.jl")
 include("vault.jl")
 include("files.jl")
 include("navigation.jl")
+include("note.jl")
+
+export Note
+export notes
 
 export Vault
 export wikinames
