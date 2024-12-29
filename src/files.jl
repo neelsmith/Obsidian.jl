@@ -33,5 +33,16 @@ end
 """Apply YAML package parse to a string.
 """
 function parseyaml(s::T) where T <: AbstractString
-    isempty(s)  ?  nothing :     YAML.load(IOBuffer(s))
+    if isempty(s)   
+        nothing 
+    else 
+        try
+             YAML.load(IOBuffer(s))
+
+        catch e 
+            @error("Function parseyaml: failed to parse YAML. Input was $(s)\n\n")
+            @error(string(e))
+            nothing
+        end
+    end
 end

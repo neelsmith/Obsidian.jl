@@ -17,9 +17,14 @@ $(SIGNATURES)
 """
 function kvpairs(f)
     parsed = parsefile(f)
-    yamlout = kvfromyaml(parsed.header)
-    @debug("YAML parsing yields $(yamlout)")
-    vcat(kvfrommd(parsed.body), yamlout)
+    try 
+        yamlout = kvfromyaml(parsed.header)
+        @debug("YAML parsing yields $(yamlout)")
+        vcat(kvfrommd(parsed.body), yamlout)
+    catch e
+        @warn("Failed to get kv pairs from file $(f)")
+        []
+    end
 end
 
 """Extract  key-value pairs.from YAML string `s`.
@@ -69,7 +74,8 @@ function kvfrommd(s)
         for m in eachmatch(dvtag, ln)
             parts = split(m.captures[1], "::")
             if length(parts) != 2
-                @warn("Bad syntax for kv link: matched $(m.captures)")
+                #@warn("Bad syntax for kv link: matched $(m.captures)")
+                #@warn("Input was \n$(s)")
             else
                 push!(results, (k = parts[1], v = strip(parts[2])))
             end
@@ -77,7 +83,7 @@ function kvfrommd(s)
         for m in eachmatch(hiddendvtag, ln)
             parts = split(m.captures[1], "::")
             if length(parts) != 2
-                @warn("Bad syntax for kv link: matched $(m.captures)")
+                #@warn("Bad syntax for kv link: matched $(m.captures)")
             else
                 push!(results, (k = parts[1], v = strip(parts[2])))
             end

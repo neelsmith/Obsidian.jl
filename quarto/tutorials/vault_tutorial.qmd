@@ -1,5 +1,6 @@
 ---
 title: "Obsidian vaults"
+engine: julia
 ---
 
 You can construct a `Vault` from a directory in your file system. We've predefined a variable named `root` to point to the base directory of this repository, and will use a sample Obsidian vault in the repository's `test/data` directory.
@@ -21,7 +22,7 @@ v isa Vault
 
 ## Wikinames and files
 
-Obsidian identifies notes by the name of their plain-text files, minus any extension. We refer to this as its "wikiname," since this reference can be used as a link anywhere in the vault without knowledge of the note's location in the vault.
+Obsidian identifies notes by the name of their plain-text files, minus any extension. We refer to this as its *wikiname*, since this reference can be used as a link anywhere in the vault without knowledge of the note's location in the vault.
 
 To find the names Obsidian uses for all notes in a vault, use the `wikinames` function:
 

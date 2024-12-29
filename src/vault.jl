@@ -60,7 +60,7 @@ $(SIGNATURES)
 function show(io::IO, v::Vault)
     count = wikinames(v) |> length
     suffix = count == 1 ? "" : "s"
-    str = string("Obisidan vault with $count note$suffix" )
+    str = string("Obsidian vault with $count note$suffix" )
     show(io,str)
 end
 
