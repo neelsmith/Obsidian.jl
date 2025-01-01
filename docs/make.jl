@@ -16,8 +16,7 @@ using Obsidian
 makedocs(   
     sitename = "Obsidian",
     pages = [
-        "Home" => "index.md",
-       
+        "Home" => "index.md"
     ]
     )
 
