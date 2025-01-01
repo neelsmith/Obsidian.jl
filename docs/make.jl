@@ -16,9 +16,8 @@ using Obsidian
 makedocs(   
     sitename = "Obsidian",
     pages = [
-        "Overview" => "index.md",
-        "Navigation" => "navigation.md",
-        "Key-value pairs in dataview format" => "dataview.md",
+        "Home" => "index.md",
+       
     ]
     )
 
