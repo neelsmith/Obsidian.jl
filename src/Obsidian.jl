@@ -18,7 +18,7 @@ export Note
 export notes
 
 export Vault
-export wikinames
+export wikinames, links, link, validlink
 export path
 export linkson, linkedto
 export tags, tagged

@@ -9,7 +9,7 @@ engine: julia
 :::{.callout-note title="Background on key-value properties"}
 
 Obsidian lets you add metadata, composed of key-value pairs, to any note in a [YAML file header](https://help.obsidian.md/Editing+and+formatting/Properties#Property%20format).
-In addition, with the `dataview` plugin, you can include key-value properties in [in-line fields](https://blacksmithgu.github.io/obsidian-dataview/annotation/add-metadata/#inline-fields).
+In addition, with the `dataview` plugin, you can include key-value properties in [in-line fields](https://blacksmithgu.github.io/obsidian-dataview/annotation/add-metadata/#inline-fields) (hidden or visible) in your notes.
 :::
 
 ## Start from an Obsidian vault
@@ -45,7 +45,7 @@ To find properties for a single note, use the `kvpairs` function.
 lincolntags = kvpairs(v,"Abraham Lincoln 1860 census")
 ```
 
- The result is a simple list of named tuples, so you can use normal Julia mapping and filtering on it. For example, use `map` to find the data categories recorded for Abraham Linconl in the 1860 census:
+ The result is a simple list of named tuples, so you can use normal Julia mapping and filtering to work with it. For example, use `map` to find the data categories recorded for Abraham Lincoln in the 1860 census:
 
 ```{julia}
 map(tag -> tag.k, lincolntags)

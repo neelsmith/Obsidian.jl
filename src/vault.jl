@@ -364,3 +364,19 @@ function noteslist(vlt::Vault, k,v)::Vector{String}
     results
 
 end
+
+
+
+"""True if s is a valid link string to a note in a vault.
+$(SIGNATURES)
+"""
+function validlink(s, v::Vault)
+    islink(s) ? link(s) in wikinames(v) : false
+end
+
+"""True if s is a valid wikiname in a vault.
+$(SIGNATURES)
+"""
+function validname(s, v::Vault)
+    s in wikinames(v)
+end
