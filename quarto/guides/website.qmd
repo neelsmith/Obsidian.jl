@@ -1,0 +1,17 @@
+# Creating a web site from an Obsidian vault
+
+
+::: {.callout-tip title="Background information"}
+Before beginning, see the guide on [creating pure Markdown from Obsidian notes](./markdownoptions.qmd)
+:::
+
+
+
+::: {.callout-caution title="TBA"}
+Outline of contents to be added
+:::
+
+
+1. map all pages to pure Markdown
+2. map all pages to destination file
+3. write Markdown to destination file

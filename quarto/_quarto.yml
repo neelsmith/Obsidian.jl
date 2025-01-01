@@ -5,7 +5,7 @@ theme: spacelab
 execute:
   freeze: auto
 date: last-modified  
-margin-header: "Package version `0.2.0`"
+margin-header: "Documentation for unpublished version in development: `0.4.0`"
 format:
   html: 
     toc: true
@@ -36,11 +36,15 @@ website:
     - title: "Tutorials"
       contents: 
         - tutorials/index.qmd
-        - tutorials/navigation.qmd
+        - tutorials/vault_tutorial.qmd
+        - tutorials/properties_tutorial.qmd
 
     - title: "Guides"
       contents:
         - guides/index.qmd
+        - guides/constructors.qmd
+        - guides/markdownoptions.qmd
+        - guides/website.qmd
 
     - title: "Reference"
       contents: 

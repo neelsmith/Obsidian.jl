@@ -1,6 +1,34 @@
 ---
+engine: julia
+
 title: Concepts
 ---
 
 
-An Obsidian vault is just a directory with markdown content. In addition to standard Markdown, the Obsidian app supports wiki-style links for navigating within your vault, and tags beginning with `#` to add metadata to your notes.
+## Obsidian and `Obsidian.jl`
+
+[Obsidian](https://obsidian.md/) is a popular note-taking and writing app. `Obsidian.jl` is a Julia package for working with content created or edited by Obsidian.
+
+
+## Standard Obsidian content
+
+
+Obsidian works with *Obsidian vaults*, which are nothing more than directories (and recursive subdirectories) of plain-text files. 
+
+The Obsidian app supports standard Markdown for structuring plain-text files and for linking to other content. It also extends Markdown with three important additions:
+
+
+1. *wiki-style links*, denoted with double square brackets, link to notes by name without requiring a path location in your vault
+2. *tags* (key words beginning with a pound sign `#`) label a note with metadata
+3. *properties* add richer metadata to a note as key-value pairs defined in a YAML header
+
+##  The `dataview` plugin
+
+Obsidian is an Electron application that can be extended with plugins written in javascript. One widely used plugin is [`dataview`](https://blacksmithgu.github.io/obsidian-dataview/), a javascript indexing and query engine that defines a query languge for working with metadata about Obsidian notes.
+
+In addition to properties defined in a note's YAML header, `dataview` defines a notation for adding key-value pairs as *inline fields* in the Markdown content of a note.
+
+## `Obsidian.jl`
+
+Julia's excellent infrastructure around Markdown makes it an appealing language for using content in Obsidian vaults. The main goal of `Obsidian.jl` is to implement functionality for Obsidian content that is not pure Markdown: standard Obsidian's wiki links, tags, and properties, and the dataview plugin's format for inlink links.
+

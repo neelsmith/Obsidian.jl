@@ -3,5 +3,5 @@ title: "Guides"
 ---
 
 
-This page will include recipes book for completing specific tasks with `Obsidian.jl`
+This section of the site is for recipes and examples of completing specific tasks with `Obsidian.jl`
 

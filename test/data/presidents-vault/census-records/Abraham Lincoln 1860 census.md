@@ -1,7 +1,7 @@
 
 
 
-Refers to::[[Abraham Lincoln]]
+Refersto::[[Abraham Lincoln]]
 Enumeration::[[Springfield, Sangamon, Illinois]]
 Date::1860-07-14
 House::1002

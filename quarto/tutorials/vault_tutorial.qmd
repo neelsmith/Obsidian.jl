@@ -1,0 +1,70 @@
+---
+title: "Obsidian vaults"
+engine: julia
+---
+
+You can construct a `Vault` from a directory in your file system. We've predefined a variable named `root` to point to the base directory of this repository, and will use a sample Obsidian vault in the repository's `test/data` directory.
+
+```{julia}
+#| echo: false
+#| output: false
+#| warning: false
+root = pwd() |> dirname |> dirname
+```
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(root, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+v isa Vault
+```
+
+
+## Wikinames and files
+
+Obsidian identifies notes by the name of their plain-text files, minus any extension. We refer to this as its *wikiname*, since this reference can be used as a link anywhere in the vault without knowledge of the note's location in the vault.
+
+To find the names Obsidian uses for all notes in a vault, use the `wikinames` function:
+
+```{julia}
+notenames = wikinames(v)
+```
+
+
+If you need to find the location of the note in your file system, you can use the `path` function:
+
+```{julia}
+path(v, notenames[1])
+```
+
+
+## Navigating links in a vault
+
+
+Find links occuring on the page with wiki name "Abraham Lincoln" (that is, links *outgoing* from "Abraham Lincoln"):
+
+```{julia}
+linkson(v, "Abraham Lincoln")
+```
+
+Find pages that link to the note "Abraham Lincoln" (that is, links *incoming* to "Abraham Lincoln"):
+
+```{julia}
+linkedto(v, "Abraham Lincoln")
+```
+
+
+## Tags
+
+Find all tags labelling the page "Abraham Lincoln":
+
+```{julia}
+tags(v, "Abraham Lincoln")
+```
+
+Find all pages tagged `#president`:
+
+
+```{julia}
+tagged(v, "#president")
+```

@@ -1,0 +1,82 @@
+---
+engine: julia
+---
+
+# Key-value properties
+
+
+
+:::{.callout-note title="Background on key-value properties"}
+
+Obsidian lets you add metadata, composed of key-value pairs, to any note in a [YAML file header](https://help.obsidian.md/Editing+and+formatting/Properties#Property%20format).
+In addition, with the `dataview` plugin, you can include key-value properties in [in-line fields](https://blacksmithgu.github.io/obsidian-dataview/annotation/add-metadata/#inline-fields) (hidden or visible) in your notes.
+:::
+
+## Start from an Obsidian vault
+
+
+
+```{julia}
+#| echo: false
+#| output: false
+#| warning: false
+root = pwd() |> dirname |> dirname
+```
+
+We'll use the small test vault in the `test/data/presidents-vault` directory of the package's github repository, so if you want to see what the source notes look like, explore the vault there:
+
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(root, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+```
+
+
+
+
+
+## Find properties for a note
+
+
+To find properties for a single note, use the `kvpairs` function. 
+
+```{julia}
+lincolntags = kvpairs(v,"Abraham Lincoln 1860 census")
+```
+
+ The result is a simple list of named tuples, so you can use normal Julia mapping and filtering to work with it. For example, use `map` to find the data categories recorded for Abraham Lincoln in the 1860 census:
+
+```{julia}
+map(tag -> tag.k, lincolntags)
+```
+
+Use `filter` and `map` in succession to find the date when the census record was taken:
+
+```{julia}
+datetags = filter(tag -> tag.k == "Date", lincolntags)
+map(tag -> tag.v, datetags)
+```
+
+Note that the `Refersto` property returns a wikilink.
+
+
+```{julia}
+refersto = filter(tag -> tag.k == "Refersto", lincolntags)
+map(tag -> tag.v, refersto)
+```
+
+## Work with properties for an entire vault
+
+
+The `kvtriples` finds all properties in a vault. It returns a list of `NoteKV` objects with three values: the name of the wiki page, the key and the value, accessible with the `wikiname`, `key` and `value` functions, respectively. Find the unique set of notes that have properties:
+
+```{julia}
+allkvtags = kvtriples(v)
+wikiname.(allkvtags) |> unique
+```
+
+
+- find pages and values for key
+- find pages for key-value pair
+

@@ -1,7 +1,7 @@
 name = "Obsidian"
 uuid = "0a1fef19-5aa4-4284-b8c1-c1397acb49d1"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.2.0"
+version = "0.3.0"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
@@ -12,7 +12,7 @@ YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
 DocStringExtensions = "0.9"
-Documenter = "0.27"
+Documenter = "0.27, 1"
 TestSetExtensions = "2"
 YAML = "0.4"
 julia = "1"

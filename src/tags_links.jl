@@ -10,12 +10,51 @@ function links(s)
     linklist
 end
 
+
+"""True if `s` is a wikilink.
+"""
+function islink(s)
+    re = r"^\[\[(.+)]]$"
+    m = match(re, s)
+    if isnothing(m) 
+        false 
+    else
+        true
+    end 
+end
+
+"""Extract wiki-style link from string `s`.
+$SIGNATURES
+"""
+function link(s)
+    re = r"^\[\[(.+)]]$"
+    m = match(re, s)
+    if isnothing(m)
+        nothing
+    else
+        m.captures[1]
+    end
+end
+
+
+
+
 """Extract tags from YAML header and markdown body of file `f`.
 $(SIGNATURES)
 """
 function tags(f)
     parsed = parsefile(f)
-    vcat(mdtags(parsed.body), yamltags(parsed.header))
+
+    try
+        hdrtags = yamltags(parsed.header)
+        bodytags = mdtags(parsed.body)
+        vcat(bodytags, hdrtags)
+    catch e
+        @error("Failed to parse file $(f)")
+        @error("function tags: failed to parse tags. Error was $(e)")
+        []
+    end
+    
 end
 
 """Extract tags from markdown string. Tags are tokens beginning with pound sign `#`.
@@ -38,8 +77,12 @@ function yamltags(yaml)
     if isempty(yaml)
         String[]
     else
+        
         yamldict = parseyaml(yaml)
-        if typeof(yamldict) <: Dict && haskey(yamldict, "tags")
+        if isnothing(yamldict)
+            @error("Function yamltags failed to parse yaml.")
+            @error("Input was ($yaml)")
+        elseif typeof(yamldict) <: Dict && haskey(yamldict, "tags")
             raw = yamldict["tags"] 
             if typeof(raw) <: AbstractString
                 "#" * raw

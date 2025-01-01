@@ -1,11 +1,12 @@
 ---
+engine: julia
 title: "API documentation"
 ---
 
-Exported functions:
+## Exported functions and structures
 
 
-
+### Vaults
 
 `Vault` 
 
@@ -18,6 +19,15 @@ using Obsidian
 ```
 :::
 
+`wikinames`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc wikinames
+```
+:::
 
  
 `path`
@@ -62,12 +72,28 @@ using Obsidian
 :::
 
 
-`tagged`
+### Key-value metadata
+
+`NoteKV`
 
 :::{.callout-note appearance="minimal"}
 ```{julia}
 #| echo: false
 #| warning: false
-@doc tagged
+@doc NoteKV
 ```
 :::
+
+
+`kvpairs`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc kvpairs
+```
+:::
+
+
+## Internal functions
