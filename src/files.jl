@@ -46,3 +46,25 @@ function parseyaml(s::T) where T <: AbstractString
         end
     end
 end
+
+
+function stripdataview(f)
+    lines = readlines(f)
+    contents = []
+    incontent = true
+    #@info("Work from $(lines)")
+    for ln in lines
+       # @info("Look at $(ln)")
+
+        if startswith(ln, "```dataview")
+            incontent = false
+
+        elseif startswith(ln, "```") && (incontent == false)
+            incontent = true
+
+        elseif incontent
+            push!(contents, ln)
+        end
+    end
+    join(contents,"\n")
+end

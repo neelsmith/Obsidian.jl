@@ -1,6 +1,5 @@
 project:
   type: website
-jupyter: julia-1.10  
 theme: spacelab
 execute:
   freeze: auto
