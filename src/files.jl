@@ -30,7 +30,7 @@ function parsefile(f)
     end
 end
 
-"""Apply YAML package parse to a string.
+"""Apply YAML package's parsing to a string.
 """
 function parseyaml(s::T) where T <: AbstractString
     if isempty(s)   
