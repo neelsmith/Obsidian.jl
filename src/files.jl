@@ -1,6 +1,7 @@
 
 """Parse Obsidian file f into optional yaml header and
 body section.
+$(SIGNATURES)
 """
 function parsefile(f)
     lines = readlines(f)
@@ -31,6 +32,7 @@ function parsefile(f)
 end
 
 """Apply YAML package's parsing to a string.
+$(SIGNATURES)
 """
 function parseyaml(s::T) where T <: AbstractString
     if isempty(s)   
