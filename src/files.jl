@@ -48,8 +48,8 @@ function parseyaml(s::T) where T <: AbstractString
 end
 
 
-function stripdataview(f)
-    lines = readlines(f)
+function stripdataview(s::AbstractString)
+    lines = split(s, "\n")
     contents = []
     incontent = true
     #@info("Work from $(lines)")
@@ -66,5 +66,6 @@ function stripdataview(f)
             push!(contents, ln)
         end
     end
+    
     join(contents,"\n")
 end

@@ -1,0 +1,74 @@
+---
+engine: julia
+---
+
+# Exporting notes
+
+What happens
+
+
+
+- `dataview` blocks are omitted
+- wikilinks are rewritten as normal markdown links using relative or absolute paths
+- YAML may be stripped out or included
+- tags may be stripped out or included
+- hidden inline properties are always stripped; visible inline properties may be stripped or included
+
+
+### Strip `dataview` blocks
+```{julia}
+#| echo: false
+#| warn: false
+#| output: false
+using Obsidian
+```
+```{julia}
+
+part1 = """
+## Assertions
+
+Automatic insertions:
+
+```dataviewjs
+dv.el("h3", "Assertions about birth")
+let page = dv.current()
+let assertions = []
+
+for (let pg of dv.pages()) {
+	if (pg.birth) {
+		for (ln of pg.birth) {
+			let cols = ln.split("|")
+			if (cols[0] == "[[" + page.file.name + "]]")  {
+				assertions.push(cols)
+			}
+		}
+	}
+}
+dv.table(
+	["Date", "Place", "Source", "Assertion"],
+	assertions.map(row => [row[1], row[2], row[3], row[4]])
+	);
+"""
+
+part2 = """```
+Manually edited text
+"""
+
+
+qmd = part1 * part2
+
+
+stripped = Obsidian.stripdataview(qmd)
+
+```
+
+```{julia}
+#| echo: false
+using Markdown
+join(map(ln -> "> $(ln)", split(stripped,"\n")), "\n") |> Markdown.parse
+```
+
+```{julia}
+
+Markdown.parse(stripped)
+```

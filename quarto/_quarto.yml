@@ -37,6 +37,7 @@ website:
         - tutorials/index.qmd
         - tutorials/vault_tutorial.qmd
         - tutorials/properties_tutorial.qmd
+        - tutorials/export_tutorial.qmd
 
     - title: "Guides"
       contents:
@@ -48,6 +49,7 @@ website:
     - title: "Reference"
       contents: 
         - reference/index.qmd
+        - reference/export.qmd
         - reference/apis.qmd
 
     - title: "Concepts"
