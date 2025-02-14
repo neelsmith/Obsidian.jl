@@ -29,4 +29,4 @@ export wikiname, key, value
 
 export kvpairs
 
-end # module Obsidian
+end
