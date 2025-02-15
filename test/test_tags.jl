@@ -33,4 +33,21 @@ tags:
     taglist = Obsidian.yamltags(yamlstring)
     @test taglist == ["#dataview", "#testing"]
 
+
+    kvlist =  Obsidian.kvfromyaml(yamlstring)
+    @test length(kvlist) == 1
+    complextag = kvlist[1]
+    @test complextag.k == "obj"
+    @test complextag.v isa Dict
+    @test length(complextag.v) == 3
+    expectedkeys  = [ "key1", "key2", "key3"]
+    for k in keys(complextag.v)
+        @test k in expectedkeys
+    end
+
+    @test complextag.v["key1"] == "Val"
+    @test complextag.v["key2"] == 3
+    @test complextag.v["key3"] == ["List1", "List2", "List3"]
+
+
 end
