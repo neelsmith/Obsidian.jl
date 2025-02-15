@@ -41,18 +41,20 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
 end
 
 function mdcontent(v, pg)
+    @info("Get content of page $(pg)")
     # get body
     srccontents = parsefile(path(v, pg))
     # strip dataview
     nodv = stripdataview(srccontents.body)
-    # linkify
-    linked = linkify(v,pg,nodv)
     # strip hidden sequences
-    striphidden(linked)
+    stripped = striphidden(nodv)
+    # linkify
+    linked = linkify(v,pg,stripped)
 end
 
 
 function linkify(v,pgname, text)
+    
 end
 
 
@@ -72,9 +74,9 @@ function stripdataview(s::AbstractString)
     lines = split(s, "\n")
     contents = []
     incontent = true
-    #@info("Work from $(lines)")
+    @debug("Work from $(lines)")
     for ln in lines
-       # @info("Look at $(ln)")
+       @debug("Look at $(ln)")
 
         if startswith(ln, "```dataview")
             incontent = false
