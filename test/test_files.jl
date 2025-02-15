@@ -2,6 +2,7 @@
 @testset "Test stripping dataview blocks" begin
     testdata= """Regular markdown
 ```dataview
+task from #projects/active
 ```    
 More markdown.
 """
