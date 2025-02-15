@@ -63,6 +63,7 @@ function mdcontent(v, pg; quarto = false, striptags = true)
     # strip dataview
     nodv = stripdataview(srccontents.body)
     # strip hidden sequences
+    @debug("Page before stripping tags: $(nodv)")
     stripped = stripdvtags(nodv; striptags = striptags)
     # linkify
     linked = linkify(v,pg,stripped; quarto = quarto)
@@ -104,11 +105,14 @@ $(SIGNATURES)
 """
 function stripdvtags(s; striptags = false)
     dvhidden = r"\([^)]+::[^)]+\)"
-    stripped = replace(s, dvhidden => "")
-   
-    if striptags
+    stripped1 = replace(s, dvhidden => "")
+    @info("Stripped hidden tags to get $(stripped1)")
+    stripped = if striptags
+        #@info("Now strip visible tags")
         dvvisible = r"\[[^)]+::[^)]+\]"
-        stripped = replace(stripped, dvvisible => "")
+        replace(stripped1, dvvisible => "")
+    else
+        stripped1
     end
     tidier = replace(stripped, r"[ ]+" => " ")
 end
