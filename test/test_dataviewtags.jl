@@ -56,3 +56,10 @@ tags:
 
 
 end
+
+@testset "Test regexen" begin
+    s = "Honest Abe was the sixteenth president [sequence::16]"
+    dvvisible = r"\[[^::]+::[^\]]+]"
+    #::[^)]+\]"
+
+end

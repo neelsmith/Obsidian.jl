@@ -100,7 +100,9 @@ function linkify(v,pgname, text; quarto = false)
 end
 
 
-"""Strip any dataview hidden tags out of a string.
+"""Strip dataview hidden tags out of a string.
+Always strip hidden tags; strip visible tags based on
+setting of `striptags` parameter.
 $(SIGNATURES)
 """
 function stripdvtags(s; striptags = false)
@@ -110,7 +112,8 @@ function stripdvtags(s; striptags = false)
     stripped = if striptags
         #@info("Now strip visible tags")
         dvvisible = r"\[[^)]+::[^)]+\]"
-        replace(stripped1, dvvisible => "")
+        #replace(stripped1, dvvisible => "")
+        stripped1
     else
         stripped1
     end
