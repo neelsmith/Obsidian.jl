@@ -29,7 +29,8 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
     dest = joinpath(outputroot, srcpath)
     @info("DEST IS $(dest)")
     if quarto
-        dest = replace(dest, r".md$" => ".qmd")
+        qmd = replace(dest, r".md$" => ".qmd")
+        dest = replace(qmd, " " => "_")
     end
     destdir = dirname(dest)
     if ! isdir(destdir)
@@ -92,9 +93,9 @@ function linkify(v,pgname, text; quarto = false)
     
     modifiedtext = text
     for lnk in linkkeys
-        trgt = relativelink(v, pgname, lnk)
+        trgt = replace(relativelink(v, pgname, lnk), " " => "_")
         if quarto
-            trgt = replace(trgt, r".md$" => ".qmd")
+            trgt = replace(trgt, r".md$" => ".html")
         end
         @debug("MAke links for $(lnk) to $(trgt)")
 
