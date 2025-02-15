@@ -6,6 +6,7 @@ function exportmd(v::Vault, outputroot;
     for n in notes(v)
         exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto)
     end
+    @info("$(v) exported to directory $(outputroot)")
 end
 
 
@@ -24,10 +25,8 @@ $(SIGNATURES)
 function exportmd(v::Vault, pg::AbstractString, outputroot; 
     keepyaml = false, yaml = "", quarto = true)
 
-    srcpath = path(v,pg; relative = true)
-    @info("SRCPATH $(srcpath)")
+    srcpath = path(v,pg; relative = true)    
     dest = joinpath(outputroot, srcpath)
-    @info("DEST IS $(dest)")
     if quarto
         qmd = replace(dest, r".md$" => ".qmd")
         dest = replace(qmd, " " => "_")
@@ -37,30 +36,18 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
         mkpath(destdir)
     end
     @debug("Export contents of note <$(pg)> to output $(dest)")
+
     mdtext = mdcontent(v,pg; quarto = quarto)
-    @debug("TEXT IS $(mdtext)")
-    # do quarto things if true
-    if quarto
-        #@info("Need to look for mermaid")
-        #mdtext = replace(mdtext, "```mermaid" => "```{mermaid}")
-    end
-
-
     finaltext = if keepyaml
         srccontents = parsefile(path(v, pg))
-        string("---\n", pg.header, "---\n\n", mdtext)
+        string("---\n", srccontents.header, "---\n\n", mdtext)
     else
         yaml * mdtext
     end
-
-    @info("WRITE FILE $(dest) ")
     
-    #with $(finaltext)")
     open(dest, "w") do io
         write(io, finaltext)
     end
-
-    
 end
 
 
@@ -72,7 +59,7 @@ $(SIGNATURES)
 function mdcontent(v, pg; quarto = false)
     @debug("Get content of page $(pg)")
     # get body
-    srccontents = parsefile(path(v, pg))
+    srccontents = parsefile(path(v, pg); quarto = quarto)
     # strip dataview
     nodv = stripdataview(srccontents.body)
     # strip hidden sequences
@@ -97,7 +84,7 @@ function linkify(v,pgname, text; quarto = false)
         if quarto
             trgt = replace(trgt, r".md$" => ".html")
         end
-        @debug("MAke links for $(lnk) to $(trgt)")
+        @debug("Make links for $(lnk) to $(trgt)")
 
         replacethis = "[[$(lnk)]]"
         replacement = string("[", lnk, "](",trgt ,")")
@@ -108,15 +95,6 @@ function linkify(v,pgname, text; quarto = false)
         end
         modifiedtext = join(replaced,"\n")
     end
-    #=
-    for k in keys(linkdict)
-        #rellink = relativelink(v,k, linkdict[k])
-        
-        @info("Replace $(replacethis) with link ") #to $(rellink)")
-        text = replace(text, replacethis => "LINK to $(k)")
-        #k => string("[", k, "](", , ")" ))
-    end
-    =#
     modifiedtext
 end
 
