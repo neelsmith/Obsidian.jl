@@ -13,7 +13,7 @@ end
 
 """True if `s` is a wikilink.
 """
-function islink(s)
+function iswikilink(s)
     re = r"^\[\[(.+)]]$"
     m = match(re, s)
     if isnothing(m) 
@@ -35,8 +35,6 @@ function link(s)
         m.captures[1]
     end
 end
-
-
 
 
 """Extract tags from YAML header and markdown body of file `f`.

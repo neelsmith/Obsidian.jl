@@ -50,9 +50,9 @@ end
 """Find file path for wiki name.
 $(SIGNATURES)
 """
-function path(v::Vault, wikiname) 
+function path(v::Vault, wikiname; relative = false) 
     if haskey(v.filemap, wikiname)
-        v.filemap[wikiname]
+        relative ? "." * replace(v.filemap[wikiname], v.root => "" ) :   v.filemap[wikiname]
     else
         nothing
     end

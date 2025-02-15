@@ -1,5 +1,7 @@
 
 @testset "Test links" begin
-    s = "Honest Abe was the (hiddensequence: 16) sixteenth president [sequence::16]."
+    s = "[[Abraham Lincoln]]"
+    @test Obsidian.iswikilink(s)
+    @test Obsidian.link(s) == "Abraham Lincoln"
 
   end

@@ -371,7 +371,7 @@ end
 $(SIGNATURES)
 """
 function validlink(s, v::Vault)
-    islink(s) ? link(s) in wikinames(v) : false
+    iswikilink(s) ? link(s) in wikinames(v) : false
 end
 
 """True if s is a valid wikiname in a vault.

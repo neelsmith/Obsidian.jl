@@ -13,6 +13,7 @@ include("vault.jl")
 include("files.jl")
 include("navigation.jl")
 include("note.jl")
+include("export.jl")
 
 export Note
 export notes
@@ -28,5 +29,7 @@ export NoteKV
 export wikiname, key, value
 
 export kvpairs
+
+export exportmd
 
 end
