@@ -10,6 +10,9 @@
     @test length(stags) == 2
     @test (k = "sequence", v = "16") in stags
     @test (k = "hiddensequence", v = "16") in stags
+
+    initialtag = "**Bold Field**:: Nice!"
+    @test Obsidian.kvfrommd(initialtag) == [(k = "**Bold Field**", v = "Nice!")]
 end
 
 
