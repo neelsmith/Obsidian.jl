@@ -16,3 +16,21 @@
 end
 
 
+@testset "Test extracting tags from YAML strings" begin
+yamlstring = """
+obj: 
+    key1: "Val" 
+    key2: 3 
+    key3: 
+        - "List1" 
+        - "List2" 
+        - "List3"
+tags: 
+    - dataview
+    - testing
+"""
+
+    taglist = Obsidian.yamltags(yamlstring)
+    @test taglist == ["#dataview", "#testing"]
+
+end

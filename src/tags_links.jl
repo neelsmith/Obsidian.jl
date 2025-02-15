@@ -10,7 +10,6 @@ function links(s)
     linklist
 end
 
-
 """True if `s` is a wikilink.
 """
 function iswikilink(s)
@@ -51,8 +50,7 @@ function tags(f)
         @error("Failed to parse file $(f)")
         @error("function tags: failed to parse tags. Error was $(e)")
         []
-    end
-    
+    end 
 end
 
 """Extract tags from markdown string. Tags are tokens beginning with pound sign `#`.
