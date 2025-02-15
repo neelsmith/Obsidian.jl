@@ -8,15 +8,26 @@ function exportmd(v::Vault, outputroot;
     end
 end
 
+
+"""Export a note  `n` to a markdown file in a subdirectory of directory `outputroot`.
+$(SIGNATURES)
+"""
 function exportmd(v::Vault,n::Note, outputroot; 
     keepyaml = false, yaml = "", quarto = true)
     exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto)
 end
 
+
+"""Export a note named `pg` to a markdown file in a subdirectory of directory `outputroot`.
+$(SIGNATURES)
+"""
 function exportmd(v::Vault, pg::AbstractString, outputroot; 
     keepyaml = false, yaml = "", quarto = true)
+
     srcpath = path(v,pg; relative = true)
+    @info("SRCPATH $(srcpath)")
     dest = joinpath(outputroot, srcpath)
+    @info("DEST IS $(dest)")
     if quarto
         dest = replace(dest, r".md$" => ".qmd")
     end
@@ -25,23 +36,40 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
         mkpath(destdir)
     end
     @debug("Export contents of note <$(pg)> to output $(dest)")
-    mdtext = mdcontent(v,pg)
-    
+    mdtext = mdcontent(v,pg; quarto = quarto)
+    @debug("TEXT IS $(mdtext)")
     # do quarto things if true
     if quarto
-        mdtext = replace(mdtext, "```mermaid" => "```{mermaid}")
+        #@info("Need to look for mermaid")
+        #mdtext = replace(mdtext, "```mermaid" => "```{mermaid}")
     end
 
-    open(dest, "w") do io
-        write(io, mdtext)
+
+    finaltext = if keepyaml
+        srccontents = parsefile(path(v, pg))
+        string("---\n", pg.header, "---\n\n", mdtext)
+    else
+        yaml * mdtext
     end
-    #testread = read(dest, String)
-    #@info("It worked! $(testread)")
+
+    @info("WRITE FILE $(dest) ")
+    
+    #with $(finaltext)")
+    open(dest, "w") do io
+        write(io, finaltext)
+    end
+
     
 end
 
-function mdcontent(v, pg)
-    @info("Get content of page $(pg)")
+
+"""Extract the contents of a note as generic markdown.
+YAML headers and `dataview` blocks are omitted. wiki-style
+links are converted to standard markdown links with relative paths.
+$(SIGNATURES)
+"""
+function mdcontent(v, pg; quarto = false)
+    @debug("Get content of page $(pg)")
     # get body
     srccontents = parsefile(path(v, pg))
     # strip dataview
@@ -49,12 +77,46 @@ function mdcontent(v, pg)
     # strip hidden sequences
     stripped = striphidden(nodv)
     # linkify
-    linked = linkify(v,pg,stripped)
+    linked = linkify(v,pg,stripped; quarto = quarto)
 end
 
 
-function linkify(v,pgname, text)
+function relativelink(v, src, dest)
+    relativepath(path(v, src), path(v, dest))
+end
+
+
+function linkify(v,pgname, text; quarto = false)
+    @debug("Linkify $(pgname)")
+    linkkeys = linkson(v, pgname)
     
+    modifiedtext = text
+    for lnk in linkkeys
+        trgt = relativelink(v, pgname, lnk)
+        if quarto
+            trgt = replace(trgt, r".md$" => ".qmd")
+        end
+        @debug("MAke links for $(lnk) to $(trgt)")
+
+        replacethis = "[[$(lnk)]]"
+        replacement = string("[", lnk, "](",trgt ,")")
+
+        replaced = []
+        for ln in split(text, "\n")
+            push!(replaced, replace(ln, replacethis => replacement))
+        end
+        modifiedtext = join(replaced,"\n")
+    end
+    #=
+    for k in keys(linkdict)
+        #rellink = relativelink(v,k, linkdict[k])
+        
+        @info("Replace $(replacethis) with link ") #to $(rellink)")
+        text = replace(text, replacethis => "LINK to $(k)")
+        #k => string("[", k, "](", , ")" ))
+    end
+    =#
+    modifiedtext
 end
 
 
@@ -97,6 +159,7 @@ end
 $(SIGNATURES)
 """
 function relativepath(s1, s2)
+    @debug("REL PATHS FOR $(s1), $(s2)")
     parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
     parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
     i = 1
