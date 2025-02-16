@@ -111,9 +111,9 @@ function stripdvtags(s; striptags = false)
     @info("Stripped hidden tags to get $(stripped1)")
     stripped = if striptags
         #@info("Now strip visible tags")
-        dvvisible = r"\[[^)]+::[^)]+\]"
-        #replace(stripped1, dvvisible => "")
-        stripped1
+        dvvisible = r"\[[^::]+::[^\]]+]" 
+        replace(stripped1, dvvisible => "")
+        
     else
         stripped1
     end

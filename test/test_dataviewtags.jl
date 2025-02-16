@@ -59,7 +59,9 @@ end
 
 @testset "Test regexen" begin
     s = "Honest Abe was the sixteenth president [sequence::16]"
-    dvvisible = r"\[[^::]+::[^\]]+]"
-    #::[^)]+\]"
+    dvvisible = r"\[[^::]+::[^\]]+]" 
+    expected = "Honest Abe was the sixteenth president"
+    @test strip(replace(s, dvvisible => "")) == expected
+
 
 end
