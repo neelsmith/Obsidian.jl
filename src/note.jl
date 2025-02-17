@@ -7,7 +7,9 @@ struct Note
     wikiname
 end
 
-
+"""Get wikiname for a note.
+$(SIGNATURES)
+"""
 function wikiname(n::Note)
     n.wikiname
 end

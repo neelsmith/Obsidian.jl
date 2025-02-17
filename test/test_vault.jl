@@ -20,7 +20,7 @@ end
 end
 
 
-@testset "Test notes objects" begin
+@testset "Test notes objects and wikinames" begin
     v = Vault(joinpath(pwd(), "data", "presidents-vault"))
 
     noteslist = notes(v)
@@ -49,4 +49,6 @@ end
     @test length(abe) == 1
 
 
+    expectednames = map(n -> wikiname(n), expectednotes)
+    @test wikinames(v) == expectednames
 end

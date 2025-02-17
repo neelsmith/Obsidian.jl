@@ -2,9 +2,9 @@
 $(SIGNATURES)
 """
 function exportmd(v::Vault, outputroot;
-    keepyaml = false, yaml = "", quarto = true, striptags = true)
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
     for n in notes(v)
-        exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, striptags = striptags)
+        exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags)
     end
     @info("$(v) exported to directory $(outputroot)")
 end
@@ -14,8 +14,8 @@ end
 $(SIGNATURES)
 """
 function exportmd(v::Vault,n::Note, outputroot; 
-    keepyaml = false, yaml = "", quarto = true, striptags = true)
-    exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, striptags = striptags)
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
+    exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags)
 end
 
 
@@ -23,7 +23,7 @@ end
 $(SIGNATURES)
 """
 function exportmd(v::Vault, pg::AbstractString, outputroot; 
-    keepyaml = false, yaml = "", quarto = true, striptags = true)
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
 
     srcpath = path(v,pg; relative = true)    
     dest = joinpath(outputroot, srcpath)
@@ -37,7 +37,7 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
     end
     @debug("Export contents of note <$(pg)> to output $(dest)")
 
-    mdtext = mdcontent(v,pg; quarto = quarto, striptags = striptags)
+    mdtext = mdcontent(v,pg; quarto = quarto, omitdvtags = omitdvtags)
     finaltext = if keepyaml
         srccontents = parsefile(path(v, pg))
         string("---\n", srccontents.header, "---\n\n", mdtext)
@@ -56,7 +56,7 @@ YAML headers and `dataview` blocks are omitted. wiki-style
 links are converted to standard markdown links with relative paths.
 $(SIGNATURES)
 """
-function mdcontent(v, pg; quarto = false, striptags = true)
+function mdcontent(v, pg; quarto = false, omitdvtags = true)
     @debug("Get content of page $(pg)")
     # get body
     srccontents = parsefile(path(v, pg); quarto = quarto)
@@ -64,7 +64,7 @@ function mdcontent(v, pg; quarto = false, striptags = true)
     nodv = stripdataview(srccontents.body)
     # strip hidden sequences
     @debug("Page before stripping tags: $(nodv)")
-    stripped = stripdvtags(nodv; striptags = striptags)
+    stripped = stripdvtags(nodv; omitdvtags = omitdvtags)
     # linkify
     linked = linkify(v,pg,stripped; quarto = quarto)
 end
@@ -102,10 +102,10 @@ end
 
 """Strip dataview hidden tags out of a string.
 Always strip hidden tags; strip visible tags based on
-setting of `striptags` parameter.
+setting of `omitdvtags` parameter.
 $(SIGNATURES)
 """
-function stripdvtags(s; striptags = false)
+function stripdvtags(s; omitdvtags = false)
     dvhidden = r"\([^)]+::[^)]+\)"
     dvvisible = r"\[[^::]+::[^\]]+]" 
 
@@ -114,7 +114,7 @@ function stripdvtags(s; striptags = false)
     for ln in split(s,"\n")
         stripped1 = replace(ln, dvhidden => "")
         @debug("Stripped hidden tags to get $(stripped1)")
-        stripped = if striptags
+        stripped = if omitdvtags
         #@info("Now strip visible tags")
             replace(stripped1, dvvisible => "")
         else

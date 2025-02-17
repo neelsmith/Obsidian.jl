@@ -62,14 +62,24 @@ function show(io::IO, v::Vault)
 end
 
 
-"""Find all valid Obsidian names for files in a vault.
+"""Find wikinames for notes in a vault.
+Compare `notes(v::Vault)`.
 $(SIGNATURES)
 """
 function wikinames(v::Vault)::Vector{String}
     keys(mapfiles(v)) |> collect |> sort
 end
 
-"""Create a dictionary of valid Obsidian link names to full file paths.
+
+"""Find all dataview key-value annotations in a vault.
+$(SIGNATURES)
+"""
+function kvtriples(v::Vault)
+    v.kvtriples
+end
+
+
+"""Create a dictionary of wikinames to full file paths.
 $(SIGNATURES)
 """
 function mapfiles(v::Vault)
@@ -77,7 +87,7 @@ function mapfiles(v::Vault)
 end
 
 """Beginning from directory `root`, create a dictionary
-of valid Obsidian link names to full file paths.
+of wikinames to full file paths.
 """
 function mapfiles(root; currmap = Dict(), omit = ["Templates"])
     for f in readdir(root)
@@ -158,7 +168,7 @@ function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
-"""Beginning from directory `root`, index wiki names for pages to all links on that page.
+"""Beginning from directory `root`, index wikinames for pages to all links on that page.
 $(SIGNATURES)
 """
 function pagelinksindex(root, idx = Dict(); omit = ["Templates"])
@@ -218,7 +228,7 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
 end
 
 
-"""Collect all key-value pairs annotating each Obsidian note in a directory.
+"""Collect all dataview key-value pairs annotating each Obsidian note in a directory.
 $(SIGNATURES)
 """
 function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
@@ -245,9 +255,6 @@ function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
     triples
 end
 
-function kvtriples(v::Vault)
-    v.kvtriples
-end
 
 """Find list of key-value pairs for a given note in a vault.
 The result is a Vector of named tuples with fields `k` and `v`.
@@ -311,7 +318,6 @@ function noteslist(vlt::Vault, k,v)::Vector{String}
         push!(results, wikiname(triple))
     end
     results
-
 end
 
 
