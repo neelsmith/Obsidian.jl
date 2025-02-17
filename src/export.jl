@@ -77,19 +77,26 @@ end
 
 
 function relativelink(v, src, dest)
-    relativepath(path(v, src), path(v, dest))
+    p1 = path(v, src)
+    p2 = path(v, dest)
+    @info("Get relative path from $(p1) to")
+    @info(p2)
+    relativepath(p1, p2)
 end
 
 """Modify the text of a source page to convert wikilinks to regular HTML links with relative paths.
 $(SIGNATURES)
 """
 function linkify(v, pgname, text; quarto = false)
-    @debug("Linkify $(pgname)")
+    @info("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    
+    @info("Link keys $(linkkeys)")
     modifiedtext = text
     for lnk in linkkeys
-        trgt = replace(relativelink(v, pgname, lnk), " " => "_")
+        @info("Get relative ref for $(pgname) to $(lnk)")
+        relativeref = relativelink(v, pgname, lnk)
+        @info("Relative ref is $(relativeref)")
+        trgt = replace(relativeref, " " => "_")
         if quarto
             trgt = replace(trgt, r".md$" => ".html")
         end
@@ -118,6 +125,7 @@ function striptags(s)
         notags = replace(ln, tagre => "")
         push!(stripped, notags)
     end
+    @info("Completed.")
     join(stripped, "\n")
 end
 
@@ -177,7 +185,7 @@ end
 $(SIGNATURES)
 """
 function relativepath(s1, s2)
-    @debug("REL PATHS FOR $(s1), $(s2)")
+    @info("REL PATHS FOR $(s1), $(s2)")
     parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
     parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
     i = 1

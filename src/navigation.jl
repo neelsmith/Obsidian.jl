@@ -51,9 +51,11 @@ end
 $(SIGNATURES)
 """
 function path(v::Vault, wikiname; relative = false) 
+    
     if haskey(v.filemap, wikiname)
         relative ? "." * replace(v.filemap[wikiname], v.root => "" ) :   v.filemap[wikiname]
     else
+        @warn("Failed to find path to $(wikiname)")
         nothing
     end
 end
