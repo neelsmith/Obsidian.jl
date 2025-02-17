@@ -1,8 +1,4 @@
 
-@testset "Test removing hidden, visible, and line-initial inline tags" begin
-    @test_broken 1 == 2
-end
-
 @testset "Test extracting tags from strings" begin
     s = "Honest Abe was the (hiddensequence:: 16) sixteenth president [sequence::16]."
 

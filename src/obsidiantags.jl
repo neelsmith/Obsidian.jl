@@ -1,42 +1,6 @@
-"""Extract wiki-style links from string `s`.
-$SIGNATURES
-"""
-function links(s)
-    linkre = r"\[\[([^\]]+)]]"
-    linklist = String[]
-    for m in eachmatch(linkre, s)
-        push!(linklist, m.captures[1])
-    end
-    linklist
-end
-
-"""True if `s` is a wikilink.
-"""
-function iswikilink(s)
-    re = r"^\[\[(.+)]]$"
-    m = match(re, s)
-    if isnothing(m) 
-        false 
-    else
-        true
-    end 
-end
-
-"""Extract wiki-style link from string `s`.
-$SIGNATURES
-"""
-function link(s)
-    re = r"^\[\[(.+)]]$"
-    m = match(re, s)
-    if isnothing(m)
-        nothing
-    else
-        m.captures[1]
-    end
-end
 
 
-"""Extract tags from YAML header and markdown body of file `f`.
+"""Extract Obsidian tags from YAML header and markdown body of file `f`.
 $(SIGNATURES)
 """
 function tags(f)
@@ -53,7 +17,7 @@ function tags(f)
     end 
 end
 
-"""Extract tags from markdown string. Tags are tokens beginning with pound sign `#`.
+"""Extract Obsidian tags from markdown string. Tags are tokens beginning with pound sign `#`.
 $(SIGNATURES)
 """
 function mdtags(md)
@@ -66,7 +30,7 @@ function mdtags(md)
 end
 
 
-"""Extract tag list from yaml string, and format list of values with preceding pound sign.
+"""Extract list of Obsidian tags from yaml string, and format list of values with preceding pound sign.
 $(SIGNATURES)
 """
 function yamltags(yaml)

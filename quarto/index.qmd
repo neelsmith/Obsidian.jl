@@ -6,10 +6,14 @@ engine: julia
 
 > ☞ *Work with [Obsidian vaults](https://obsidian.md) in  Julia*.
 
-If you love the Obsidian app, but don't love javascript, `Obsidian.jl` gives you programmatic access to an Obsidian vault similar to the app: you can find incoming and outgoing links to pages,  tags occurring on pages or all tags on a page.
+If you love the Obsidian app, but don't love javascript, `Obsidian.jl` gives you access to the structure  of an Obsidian vault similar to the model of the Obsidian app.With `Obsidian.jl`, you can explore the graph of a vault base on:
 
-In addition, it indexes inline fields with key-value pairs in the notation defined by
- the [dataview plugin](https://github.com/blacksmithgu/obsidian-dataview).
+- incoming and outgoing links for a note
+- Obsidian tags occuring on a note
+- key-value pairs in the notation defined by
+ the [dataview plugin](https://github.com/blacksmithgu/obsidian-dataview)
+
+ You can also extract the Markdown content of a note, and can export an entire vault to a directory tree of Markdown files with wikilinks converted to relative links.
 
 
 
@@ -19,7 +23,3 @@ In addition, it indexes inline fields with key-value pairs in the notation defin
 | **Cognition** | Learn [concepts](./concepts/)   | See [reference information](./reference/) (including API documentation for all exported functions) |
 
 
-## Status
-
-
-Version `0.3.0` is in development. It simplifies working with key-value metdata, and adds functions for rewriting Obsidian notes as pure markdown.

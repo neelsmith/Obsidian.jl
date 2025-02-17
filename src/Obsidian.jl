@@ -6,7 +6,8 @@ import Base: show
 using Documenter, DocStringExtensions
 
 
-include("tags_links.jl")
+include("obsidiantags.jl")
+include("wikilinks.jl")
 include("properties.jl")
 include("kvtags.jl")
 include("vault.jl")
