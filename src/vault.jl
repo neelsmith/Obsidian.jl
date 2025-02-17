@@ -247,59 +247,8 @@ end
 
 function kvtriples(v::Vault)
     v.kvtriples
-    #=
-    results = NoteKV[]
-
-    for pg in wikinames(v)
-        for pr in kvpairs(v, pg)
-            if isempty(pr)
-            else
-                @info("Look at $(pr)")
-                push!(results, NoteKV(pg, pr.k, pr.v))
-            end
-        end
-    end
-    results
-    =#
 end
 
-#=
-function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
-
-    for f in readdir(root)
-        if startswith(f, ".") || f in omit
-            @debug("omit invisible $(f)")
-
-        elseif isdir(joinpath(root,f))
-            @debug("DIRECTORY: $(f) ")
-            idx = kvpagesindex(joinpath(root, f), idx, omit = omit)
-           
-        elseif endswith(f, ".md")
-            filelinkname = replace(f, ".md" => "")
-            kvlinks = kvpairs(joinpath(root, f))
-          
-            if isempty(kvlinks)
-            else
-                for l in kvlinks
-                    if haskey(idx, l)
-                        oldreff = idx[l]
-                        idx[l] =  push!(oldreff, filelinkname)
-                    else
-                        idx[l] = [filelinkname]
-                    end
-                end 
-            end
-        else
-            @debug("omit non-markdown file $(f)")
-        end
-    end
-    idx
-
-end
-
-function pageskvindex(root, idx = Dict(); omit = ["Templates"])
-end
-=#
 """Find list of key-value pairs for a given note in a vault.
 The result is a Vector of named tuples with fields `k` and `v`.
 

@@ -107,17 +107,23 @@ $(SIGNATURES)
 """
 function stripdvtags(s; striptags = false)
     dvhidden = r"\([^)]+::[^)]+\)"
-    stripped1 = replace(s, dvhidden => "")
-    @info("Stripped hidden tags to get $(stripped1)")
-    stripped = if striptags
+    dvvisible = r"\[[^::]+::[^\]]+]" 
+
+
+    strippedlines = []
+    for ln in split(s,"\n")
+        stripped1 = replace(ln, dvhidden => "")
+        @debug("Stripped hidden tags to get $(stripped1)")
+        stripped = if striptags
         #@info("Now strip visible tags")
-        dvvisible = r"\[[^::]+::[^\]]+]" 
-        replace(stripped1, dvvisible => "")
-        
-    else
-        stripped1
+            replace(stripped1, dvvisible => "")
+        else
+            stripped1
+        end
+        tidier = replace(stripped, r"[ ]+" => " ")
+        push!(strippedlines, tidier)
     end
-    tidier = replace(stripped, r"[ ]+" => " ")
+    join(strippedlines,"\n")
 end
 
 """Strip any dataview blocks out of a string.

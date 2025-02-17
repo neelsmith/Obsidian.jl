@@ -30,6 +30,6 @@ export wikiname, key, value
 
 export kvpairs
 
-export exportmd
+export mdcontent, exportmd
 
 end

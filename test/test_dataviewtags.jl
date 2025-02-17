@@ -64,4 +64,29 @@ end
     @test strip(replace(s, dvvisible => "")) == expected
 
 
+    abepage = """
+#assassinated
+
+Last name: [[Lincoln]]
+
+Honest Abe was the (hiddensequence:: 16) sixteenth president [sequence::16].
+"""
+    expectedvisible ="""
+#assassinated
+
+Last name: [[Lincoln]]
+
+Honest Abe was the sixteenth president [sequence::16].
+"""
+    @test Obsidian.stripdvtags(abepage) == expectedvisible
+
+    expectedhidden ="""
+#assassinated
+
+Last name: [[Lincoln]]
+
+Honest Abe was the sixteenth president .
+"""    
+    @test Obsidian.stripdvtags(abepage; striptags=true) == expectedhidden
+
 end
