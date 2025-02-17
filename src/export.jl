@@ -80,8 +80,10 @@ function relativelink(v, src, dest)
     relativepath(path(v, src), path(v, dest))
 end
 
-
-function linkify(v,pgname, text; quarto = false)
+"""Modify the text of a source page to convert wikilinks to regular HTML links with relative paths.
+$(SIGNATURES)
+"""
+function linkify(v, pgname, text; quarto = false)
     @debug("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
     
@@ -95,7 +97,7 @@ function linkify(v,pgname, text; quarto = false)
 
         replacethis = "[[$(lnk)]]"
         replacement = string("[", lnk, "](",trgt ,")")
-
+        @debug("Linkfy string $(text)")
         replaced = []
         for ln in split(text, "\n")
             push!(replaced, replace(ln, replacethis => replacement))
@@ -109,7 +111,14 @@ end
 $(SIGNATURES)
 """
 function striptags(s)
-    s
+    @info("Strip Obs tgs from page")
+    tagre = r"#[^ \t\n]+"
+    stripped = []
+    for ln in split(s,"\n")
+        notags = replace(ln, tagre => "")
+        push!(stripped, notags)
+    end
+    join(stripped, "\n")
 end
 
 """Strip dataview hidden tags out of a string.

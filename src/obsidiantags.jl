@@ -24,8 +24,10 @@ function mdtags(md)
     taglist = String[]
     #tagre = r"(#[^#\s ]+) "
      tagre = r"(#[^#\s ]+)"
-    for m in eachmatch(tagre, md)
-        push!(taglist, m.captures[1])
+     for ln in split(md,"\n")
+        for m in eachmatch(tagre, ln)
+            push!(taglist, m.captures[1])
+        end
     end
     taglist
 end
