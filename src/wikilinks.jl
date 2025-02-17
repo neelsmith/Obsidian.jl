@@ -4,8 +4,10 @@ $SIGNATURES
 function links(s)
     linkre = r"\[\[([^\]]+)]]"
     linklist = String[]
-    for m in eachmatch(linkre, s)
-        push!(linklist, m.captures[1])
+    for ln in split(s,"\n")
+        for m in eachmatch(linkre, ln)
+            push!(linklist, m.captures[1])
+        end
     end
     linklist
 end
