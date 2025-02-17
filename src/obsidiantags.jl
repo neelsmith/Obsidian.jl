@@ -22,7 +22,8 @@ $(SIGNATURES)
 """
 function mdtags(md)
     taglist = String[]
-    tagre = r"(#[^#\s ]+)"
+    #tagre = r"(#[^#\s ]+) "
+     tagre = r"(#[^#\s ]+)"
     for m in eachmatch(tagre, md)
         push!(taglist, m.captures[1])
     end

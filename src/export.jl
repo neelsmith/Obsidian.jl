@@ -2,9 +2,9 @@
 $(SIGNATURES)
 """
 function exportmd(v::Vault, outputroot;
-    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true, omittags = true)
     for n in notes(v)
-        exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags)
+        exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags, omittags = omittags)
     end
     @info("$(v) exported to directory $(outputroot)")
 end
@@ -13,9 +13,9 @@ end
 """Export a note  `n` to a markdown file in a subdirectory of directory `outputroot`.
 $(SIGNATURES)
 """
-function exportmd(v::Vault,n::Note, outputroot; 
-    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
-    exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags)
+function exportmd(v::Vault, n::Note, outputroot; 
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true, omittags = true)
+    exportmd(v, wikiname(n), outputroot; keepyaml = keepyaml, yaml = yaml, quarto = quarto, omitdvtags = omitdvtags, omittags = true)
 end
 
 
@@ -23,7 +23,7 @@ end
 $(SIGNATURES)
 """
 function exportmd(v::Vault, pg::AbstractString, outputroot; 
-    keepyaml = false, yaml = "", quarto = true, omitdvtags = true)
+    keepyaml = false, yaml = "", quarto = true, omitdvtags = true, omittags = true)
 
     srcpath = path(v,pg; relative = true)    
     dest = joinpath(outputroot, srcpath)
@@ -37,7 +37,7 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
     end
     @debug("Export contents of note <$(pg)> to output $(dest)")
 
-    mdtext = mdcontent(v,pg; quarto = quarto, omitdvtags = omitdvtags)
+    mdtext = mdcontent(v,pg; quarto = quarto, omitdvtags = omitdvtags, omittags = omittags)
     finaltext = if keepyaml
         srccontents = parsefile(path(v, pg))
         string("---\n", srccontents.header, "---\n\n", mdtext)
@@ -56,15 +56,21 @@ YAML headers and `dataview` blocks are omitted. wiki-style
 links are converted to standard markdown links with relative paths.
 $(SIGNATURES)
 """
-function mdcontent(v, pg; quarto = false, omitdvtags = true)
+function mdcontent(v, pg; quarto = false, omitdvtags = true, omittags = true)
     @debug("Get content of page $(pg)")
     # get body
     srccontents = parsefile(path(v, pg); quarto = quarto)
     # strip dataview
     nodv = stripdataview(srccontents.body)
-    # strip hidden sequences
+    # strip dataveiw tags
     @debug("Page before stripping tags: $(nodv)")
     stripped = stripdvtags(nodv; omitdvtags = omitdvtags)
+    # strip Obsidian tags
+    stripped = if omittags
+        striptags(stripped)
+    else
+        stripped
+    end
     # linkify
     linked = linkify(v,pg,stripped; quarto = quarto)
 end
@@ -99,6 +105,12 @@ function linkify(v,pgname, text; quarto = false)
     modifiedtext
 end
 
+"""Strip Obsidian tags out of a string.
+$(SIGNATURES)
+"""
+function striptags(s)
+    s
+end
 
 """Strip dataview hidden tags out of a string.
 Always strip hidden tags; strip visible tags based on
