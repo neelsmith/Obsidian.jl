@@ -80,25 +80,27 @@ end
 $(SIGNATURES)
 """
 function mapfiles(v::Vault)
-    mapfiles(v.root)
+    v.filemap
 end
 
 """Beginning from directory `root`, create a dictionary
 of wikinames to full file paths.
 """
 function mapfiles(root; currmap = Dict(), omit = ["Templates"])
+    @debug("Mapping files to honor $(omit)")
     for f in readdir(root)
+        @debug("$(f) in omit? $(f in omit)")
         if startswith(f, ".") || f in omit
-            @debug("omit invisible $(f)")
+            @debug("omit invisible or excluded $(f)")
 
         elseif isdir(joinpath(root,f))
-            @debug("DIRECTORY: $(f) ")
+            @debug("Map subdirectory: $(f) ")
             currmap = mapfiles(joinpath(root, f), currmap = currmap, omit = omit)
             
         elseif endswith(f, ".md")
             linkname = replace(f, ".md" => "")
             currmap[linkname] = joinpath(root, f)
-            @debug("Link: $(linkname)")
+            @debug("Add md link: $(linkname)")
         else
             @debug("omit non-markdown file $(f)")
         end
