@@ -5,3 +5,14 @@ title: "Guides"
 
 This section of the site is for recipes and examples of completing specific tasks with `Obsidian.jl`
 
+
+
+
+
+## Options
+
+- `omittags`
+- `omitdvtags`
+- `keepyaml`
+- `yaml`
+- `quarto`

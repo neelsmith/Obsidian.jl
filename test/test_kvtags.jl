@@ -22,10 +22,6 @@ end
 end
 
 
-
-
-
-
 @testset "Test yaml notation" begin
   yaml = """alias: "document"
 last-reviewed: 2021-08-17
@@ -40,3 +36,9 @@ tags:
   @test length(kvpairs) == 3
 end
 
+
+@testset "Test inline notation with surrounding text" begin
+  s = "Honest Abe was the (hiddensequence:: 16) sixteenth president [sequence::16]."
+  @test Obsidian.stripdvtags(s) == "Honest Abe was the sixteenth president [sequence::16]."
+  @test Obsidian.stripdvtags(s; omitdvtags=true) == "Honest Abe was the sixteenth president."
+end

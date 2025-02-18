@@ -81,7 +81,7 @@ Honest Abe was the sixteenth president [sequence::16].
 
 Last name: [[Lincoln]]
 
-Honest Abe was the sixteenth president .
+Honest Abe was the sixteenth president.
 """    
     @test Obsidian.stripdvtags(abepage; omitdvtags=true) == expectedhidden
 

@@ -119,7 +119,7 @@ $(SIGNATURES)
 """
 function striptags(s)
     @debug("Strip Obs tgs from page")
-    tagre = r"#[^ \t\n#]+"
+    tagre = r"[ \t]*#[^ \t\n#]+"
     stripped = []
     for ln in split(s,"\n")
         notags = replace(ln, tagre => "")
@@ -135,8 +135,8 @@ setting of `omitdvtags` parameter.
 $(SIGNATURES)
 """
 function stripdvtags(s; omitdvtags = false)
-    dvhidden = r"\([^)]+::[^)]+\)"
-    dvvisible = r"\[[^::]+::[^\]]+]" 
+    dvhidden = r"[ \t]*\([^)]+::[^)]+\)"
+    dvvisible = r"[ \t]*\[[^::]+::[^\]]+]" 
 
 
     strippedlines = []
