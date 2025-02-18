@@ -73,6 +73,11 @@ read(outputfile, String) |> println
 
 ### What changed?
 
+
+As you can see in the first line of the output file, the original wikilink `[[Lincoln]]` has been converted to a normal Markdown link using 
+
+
+
 Using the default values for `exportmd`'s optional parameters, the following parts of the source file have been removed:
 
 - YAML header, here including defintion of an Obsidian tag `president`

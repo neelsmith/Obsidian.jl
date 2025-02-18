@@ -59,3 +59,8 @@ If you prefer to exclude dataview indexing, use the `dataview` parameter with a 
 v3 = Vault(vaultdir; dataview=false)
 kvtriples(v3) |> isnothing
 ```
+
+
+::: {.callout-caution }
+Omtting the `Templates` directory should have no effects on the resulting 
+:::

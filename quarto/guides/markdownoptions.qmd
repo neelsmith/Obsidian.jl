@@ -1,12 +1,10 @@
-# Creating pure Markdown content from Obsidan notes
+# Creating pure Markdown content from Obsidian notes
 
-
-:::{.callout-caution title="TBA"}
-functions:
+Obsidian notes are just Markdown files, augmented with wikilink syntax and metadata tagging. They also support executable javascript blocks. You can extract  a
 
 - `mdcontent`
 - `mdexport`
-:::
+
 
 - `dataview` blocks are omitted
 - wikilinks are rewritten as normal markdown links using relative or absolute paths
