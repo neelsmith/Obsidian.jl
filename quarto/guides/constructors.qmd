@@ -5,12 +5,28 @@ engine: julia
 # Options for creating `Vault`s
 
 
+```{julia}
+#| echo: false
+#| warning: false
+#| output: false
+repo = pwd() |> dirname |> dirname
+```
 
-::: {.callout-caution title="TBA"}
-Outline of contents to be added
-:::
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(repo, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+```
+
+
+```{julia}
+v2 = Vault(vaultdir; dataview=false)
+```
 
 
 - omit sections
 - dataview include/exclude dataview indexing
 
+
+omit = ["Templates"], dataview = true

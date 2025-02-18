@@ -23,10 +23,8 @@ struct Vault
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
                 kvtriples(dir, omit = omit)
-
-                #kvpagesindex(dir, omit = omit),
-                #pageskvindex(dir, omit = omit)
             )
+            
         else
             new(
                 dir,
@@ -35,7 +33,6 @@ struct Vault
                 pagelinksindex(dir, omit = omit ),
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
-                nothing,
                 nothing
             )
         end
