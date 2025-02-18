@@ -43,7 +43,6 @@ website:
       contents:
         - guides/index.qmd
         - guides/markdownoptions.qmd
-        - guides/website.qmd
         - guides/constructors.qmd
 
     - title: "Reference"

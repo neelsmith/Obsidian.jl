@@ -1,6 +1,12 @@
 # Creating pure Markdown content from Obsidan notes
 
 
+:::{.callout-caution title="TBA"}
+functions:
+
+- `mdcontent`
+- `mdexport`
+:::
 
 - `dataview` blocks are omitted
 - wikilinks are rewritten as normal markdown links using relative or absolute paths
