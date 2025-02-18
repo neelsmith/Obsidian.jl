@@ -3,16 +3,11 @@ title: "Guides"
 ---
 
 
-This section of the site is for recipes and examples of completing specific tasks with `Obsidian.jl`
+Some examples of how to complete specific tasks with `Obsidian.jl`.
 
 
+- [extracting Markdown content](./markdownoptions.qmd) from Obsidian notes
+- [exporting a vault](./website.qmd) to Markdown files
+- optional parameters when [creating `Vault`s](./constructors.qmd)
 
 
-
-## Options
-
-- `omittags`
-- `omitdvtags`
-- `keepyaml`
-- `yaml`
-- `quarto`
