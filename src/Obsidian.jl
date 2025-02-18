@@ -6,11 +6,12 @@ import Base: show
 using Documenter, DocStringExtensions
 
 
+include("vault.jl")
 include("obsidiantags.jl")
 include("wikilinks.jl")
 include("properties.jl")
 include("kvtags.jl")
-include("vault.jl")
+
 include("files.jl")
 include("navigation.jl")
 include("note.jl")

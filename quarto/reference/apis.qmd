@@ -78,6 +78,21 @@ using Obsidian
 ```
 :::
 
+
+
+
+### Metadata on notes: Obsidian tags
+
+`tagged`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc tagged
+```
+:::
+
 `tags`
 
 :::{.callout-note appearance="minimal"}
@@ -89,7 +104,7 @@ using Obsidian
 :::
 
 
-### Key-value metadata
+### Metadata on notes: dataview key-value properties
 
 `NoteKV`
 
@@ -111,6 +126,3 @@ using Obsidian
 @doc kvpairs
 ```
 :::
-
-
-## Internal functions

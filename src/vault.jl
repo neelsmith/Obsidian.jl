@@ -277,6 +277,8 @@ function kvpairs(v::Vault, note)
     path(v, note) |> kvpairs
 end
 
+
+#=
 """Find list of key-value pairs for a given note in a vault.
 $(SIGNATURES)
 """
@@ -287,39 +289,7 @@ function kvmap(v::Vault)
         @info("pg $wn has $(kvlist)")
     end
 end
-
-
-"""Find pairings of pagenames and values for a given key
-in a key-value property.
-
-$(SIGNATURES)
-"""
-function valueslist(v::Vault, k)
-    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
-    for triple in filter(trip -> key(trip) == k, kvtriples(v))
-        push!(results,(wikiname = wikiname(triple), value = value(triple)))
-    end
-    results
-end
-
-
-function valueslist(v::Vault, pages::Vector{String}, k)
-    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
-    for triple in filter(trip -> key(trip) == k && wikiname(trip) in pages, kvtriples(v))
-        push!(results,(wikiname = wikiname(triple), value = value(triple)))
-    end
-    results
-end
-
-function noteslist(vlt::Vault, k,v)::Vector{String}
-    results = String[]
-    @info("Look for k/v $(k)/$(v)")
-    for triple in filter(trip -> key(trip) == k && value(trip) == v, kvtriples(vlt))
-        push!(results, wikiname(triple))
-    end
-    results
-end
-
+=#
 
 
 """True if s is a valid link string to a note in a vault.

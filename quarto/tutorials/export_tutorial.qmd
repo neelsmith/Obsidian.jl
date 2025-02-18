@@ -79,5 +79,15 @@ Using the default values for `exportmd`'s optional parameters, the following par
 - inline Obsidian tags (`#assassinated`)
 - dataview key-value properties, in both hidden (`(hiddensequence:: 16)` and visible (`[sequence::16]`) formats
 
-All of these data values are available from the `Vault` object, `v`.
+All of these data values are available from the `Vault` object, `v`. Here are the Obsidan tags:
 
+```{julia}
+tags(v, "Abraham Lincoln")
+```
+
+
+Here are the dataview properties (key/value pairs):
+
+```{julia}
+kvpairs(v, "Abraham Lincoln")
+```
