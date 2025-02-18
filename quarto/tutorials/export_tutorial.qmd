@@ -38,9 +38,9 @@ outputdir = joinpath(root, "scratch", "presidents-vault-export")
 exportmd(v, outputdir)
 ```
 
-## What just happend?
+## What just happened?
 
-To see how Obsidian notes are convereted to Markdown files, let's compare the contents of the source file for Abraham Lincoln and the corresponding output file.
+To see how Obsidian notes are convereted to Markdown files, let's compare the contents of the source file for Abraham Lincoln with the corresponding output file.
 
 ::: {.callout-tip}
 `exportmd` has several optional parameters that let you control how obsidian tags, dataview key-value properties, yaml headers, and output file names are treated. See the [guides (cookbooks)](../guides/) section of the documentation for full examples.
@@ -48,7 +48,7 @@ To see how Obsidian notes are convereted to Markdown files, let's compare the co
 
 
 
-
+### The source file
 
 
 This code prints the contents of the original Obsidian note:
@@ -57,6 +57,10 @@ This code prints the contents of the original Obsidian note:
 srcfile = path(v, "Abraham Lincoln")
 read(srcfile,String) |> println
 ```
+
+
+
+### The output file
 
 The Markdown export maintains the directory structure of the Obsidan vault. Looking at the path of the Obsidian note for Abraham Lincoln, I saw that it was placed in a directory named `people`, so the Markdown output will be in a `people` subdirectory of the export root. By default, names of output files replace spaces with underscores, and use quarto's `.qmd` extension, rather than Obsidian's `.md`, 
 
@@ -67,5 +71,13 @@ outputfile = joinpath(outputdir, "people", "Abraham_Lincoln.qmd")
 read(outputfile, String) |> println
 ```
 
-### Differences
+### What changed?
+
+Using the default values for `exportmd`'s optional parameters, the following parts of the source file have been removed:
+
+- YAML header, here including defintion of an Obsidian tag `president`
+- inline Obsidian tags (`#assassinated`)
+- dataview key-value properties, in both hidden (`(hiddensequence:: 16)` and visible (`[sequence::16]`) formats
+
+All of these data values are available from the `Vault` object, `v`.
 
