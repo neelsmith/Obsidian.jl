@@ -62,5 +62,5 @@ kvtriples(v3) |> isnothing
 
 
 ::: {.callout-caution }
-Omtting the `Templates` directory should have no effects on the resulting 
+Omtting the `Templates` directory should have no side effects, but if you omit files or directories that other notes link to, the links will fail in the resulting Markdown.
 :::
