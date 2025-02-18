@@ -79,8 +79,8 @@ end
 function relativelink(v, src, dest)
     p1 = path(v, src)
     p2 = path(v, dest)
-    @info("Get relative path from $(p1) to")
-    @info(p2)
+    @debug("Get relative path from $(p1) to")
+    @debug(p2)
     relativepath(p1, p2)
 end
 
@@ -88,14 +88,14 @@ end
 $(SIGNATURES)
 """
 function linkify(v, pgname, text; quarto = false)
-    @info("Linkify $(pgname)")
+    @debug("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    @info("Link keys $(linkkeys)")
+    @debug("Link keys $(linkkeys)")
     modifiedtext = text
     for lnk in linkkeys
-        @info("Get relative ref for $(pgname) to $(lnk)")
+        @debug("Get relative ref for $(pgname) to $(lnk)")
         relativeref = relativelink(v, pgname, lnk)
-        @info("Relative ref is $(relativeref)")
+        @debug("Relative ref is $(relativeref)")
         trgt = replace(relativeref, " " => "_")
         if quarto
             trgt = replace(trgt, r".md$" => ".html")
@@ -118,14 +118,14 @@ end
 $(SIGNATURES)
 """
 function striptags(s)
-    @info("Strip Obs tgs from page")
+    @debug("Strip Obs tgs from page")
     tagre = r"#[^ \t\n]+"
     stripped = []
     for ln in split(s,"\n")
         notags = replace(ln, tagre => "")
         push!(stripped, notags)
     end
-    @info("Completed.")
+    @debug("Completed.")
     join(stripped, "\n")
 end
 
@@ -185,7 +185,7 @@ end
 $(SIGNATURES)
 """
 function relativepath(s1, s2)
-    @info("REL PATHS FOR $(s1), $(s2)")
+    @debug("REL PATHS FOR $(s1), $(s2)")
     parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
     parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
     i = 1
