@@ -42,9 +42,9 @@ website:
     - title: "Guides"
       contents:
         - guides/index.qmd
-        - guides/constructors.qmd
         - guides/markdownoptions.qmd
         - guides/website.qmd
+        - guides/constructors.qmd
 
     - title: "Reference"
       contents: 

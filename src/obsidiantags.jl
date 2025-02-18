@@ -21,6 +21,20 @@ function tags(v::Vault, wikiname)
     end
 end
 
+"""Return dictionary of page names to tags.
+$(SIGNATURES)
+"""
+function pagestotags(v)::Dict
+    v.outtags
+end
+
+
+"""Return dictionary of Obsidan tags to page names.
+$(SIGNATURES)
+"""
+function tagstopages(v)::Dict
+    v.intags
+end
 
 """Extract Obsidian tags from YAML header and markdown body of file `f`.
 $(SIGNATURES)

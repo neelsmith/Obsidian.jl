@@ -22,6 +22,7 @@ export notes
 
 export Vault
 export wikinames, links, link, validlink
+export pagestotags, tagstopages
 export path
 export linkson, linkedto
 export tags, tagged
