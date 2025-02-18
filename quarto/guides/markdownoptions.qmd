@@ -8,7 +8,7 @@ Obsidian notes are just Markdown files, augmented with wikilink syntax and metad
 
 In converting Obsidian notes to more general Markdown, `mdcontent` and `mdexport` observe these guidelines:
 
-- wikilinks are rewritten as normal markdown links using relative or absolute paths
+- wikilinks are rewritten as normal markdown links using relative or absolute paths. If the link does not exist in the vault, the wikilink syntax is left unchanged.
 - Obsidian tags may be stripped out or included
 - YAML may be included, or an alternate header may be included, or the Markdown can have no YAML header at all 
 - if your vault includes `dataview` key-value properties, hidden properties are always removed; visible inline properties and line-initial properties may be either stripped or included.
@@ -44,36 +44,131 @@ read(srcfile,String) |> println
 
 ### Extracting Markdown content with `mdcontent`
 
-Next, let's extract Markdown content from the note using `mdcontent`. 
-In addition to the wikiname of the note, `mdcontent` needs the entire vault's context to handle content like wikilinks. It permits any combination of the following named parameters:
-
-
-- `keepyaml`
-- `yaml`
-- `omittags`
-- `omitdvtags`
-- `quarto`
+Next, let's extract Markdown content from the note using `mdcontent`. In addition to the wikiname of the note, `mdcontent` needs the entire vault's context to handle content like wikilinks. 
 
 
 :::{.callout-note title="Formatted as markdown with default settings"}
 
 ```{julia}
-abedefault = mdcontent(v, "Abraham Lincoln")
-
 using Markdown
+
+abedefault = mdcontent(v, "Abraham Lincoln")
 Markdown.parse(abedefault)
 ```
 :::
 
 The default settings have stripped out the YAML header, Obsidian tags, and `dataview` properties. The wikilink has been formatted as a Markdown link using relative link syntax. 
 
+### Including metadata tagging
+
+You can use the named parameters `omittags` and `omitdvtags` to control including Obsidian tags and `dataview` key-value properties, respectively.
 
 :::{.callout-note title="Formatted as markdown but keeping inline tags"}
 ```{julia}
-abedefault = mdcontent(v, "Abraham Lincoln"; omittags = false)
-
-using Markdown
-Markdown.parse(abedefault)
+keeptags = mdcontent(v, "Abraham Lincoln"; omittags = false)
+Markdown.parse(keeptags)
 ```
 :::
+
+The Obsidian tag `#assassinated` has been kept in the Markdown text.
+
+
+
+
+
+
+:::{.callout-note title="Formatted as markdown but keeping dataview properties"}
+```{julia}
+keepdvtags = mdcontent(v, "Abraham Lincoln"; omitdvtags = false)
+Markdown.parse(keepdvtags)
+```
+:::
+
+The visible `dataview` property `[sequence::16]` has been included. Note that the hidden property (`(sequence::16)` in the source file) continues to be omitted.
+
+
+### Mermaid diagrams
+
+Obsidian supports Mermaid diagrams in blocks labelled `mermaid`. Set the `quarto` parameter to true to name the block `{mermaid}` if you want to include the output in output generated with Quarto.
+
+Here's what the resulting Markdown looks like:
+
+:::{.callout-note title="Formatted as markdown, with Quarto tagging of Mermaid diagrams"}
+
+```{julia}
+#| as-is: true
+mermified = mdcontent(v, "Martha Washington"; quarto = true)
+Markdown.parse(mermified)
+```
+
+:::
+
+And here is the Mermaid figure rendered:
+
+```{mermaid}
+flowchart LR
+Daniel["Daniel Parke Custis
+*1711-1757*"] 
+
+Daniel --> m1["**m. 1750**"]
+
+Martha["Martha Dandridge
+*1731-1802*"] 
+
+
+Martha --> m1
+
+Martha --> m2["**m. 1759**"]
+George["George Washington
+*1732-1799*"] 
+
+George --> m2
+
+DJr["Daniel Parke Custis
+*1751–1754*"]
+m1 --> DJr
+Frances["Frances Parke Custis
+*1753–1757*"]
+m1 --> Frances
+Jacky["John Parke 'Jacky' Custis
+*1754–1781*"]
+m1 --> Jacky
+Patsy["Martha Parke 'Patsy' Custis
+*1756–1773*"]
+m1 --> Patsy
+
+```
+## Exporting a vault
+
+You may export an individual page or an entire vault using the `exportmd` function. You must provide a parameter for the vault, and a parameter with the root directory for the resulting file tree.
+
+
+
+
+:::{.callout-note title="Exporting a vault formatted as markdown with default settings"}
+
+```{julia}
+#| warning: false
+using Markdown
+targetdir = joinpath(repo, "scratch", "sample-export")
+exported = exportmd(v, targetdir)
+```
+
+If we read the exported file, we'll see nearly identical contents to the output of `mdcontent`.
+
+```{julia}
+abefile = joinpath(targetdir, "people", "Abraham_Lincoln.qmd")
+defaultexport = read(abefile, String)
+Markdown.parse(defaultexport)
+```
+:::
+
+### Setting a YAML header
+
+Two named parameters give you control over YAML headers in the resulting files.
+
+- `keepyaml`: if `true`, reuses any YAML header in the original Obisian note
+- `yaml`: a string with an alternate YAML header to use. It is only considered if `keepyaml` is `false`.
+
+The default value for `keepyaml` is `false`, and for `yaml` an empty string: the result is a Markdown file with no YAML header.
 
