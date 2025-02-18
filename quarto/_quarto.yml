@@ -48,14 +48,11 @@ website:
     - title: "Reference"
       contents: 
         - reference/index.qmd
-        - reference/export.qmd
         - reference/apis.qmd
 
     - title: "Concepts"
       contents: 
         - concepts/index.qmd
-
-        
 
     - title: "Home"
       contents:
