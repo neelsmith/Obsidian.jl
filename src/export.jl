@@ -88,7 +88,7 @@ end
 $(SIGNATURES)
 """
 function linkify(v, pgname, text; quarto = false)
-    @debug("Linkify $(pgname)")
+    @info("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
     @debug("Link keys $(linkkeys)")
     modifiedtext = text
@@ -118,8 +118,8 @@ end
 $(SIGNATURES)
 """
 function striptags(s)
-    @debug("Strip Obs tgs from page")
-    tagre = r"#[^ \t\n#]+"
+    @info("Strip Obs tgs from page")
+    tagre = r"#[^ \t\n]+"
     stripped = []
     for ln in split(s,"\n")
         notags = replace(ln, tagre => "")

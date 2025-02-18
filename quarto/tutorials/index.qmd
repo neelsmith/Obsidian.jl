@@ -8,3 +8,4 @@ Start with these tutorials to learn `Obsidian.jl`.
 
 - [Obsidian vaults](./vault_tutorial.qmd): learn how to construct a vault, find incoming and outgoing links to notes, and use metadata tags on notes.
 - [Key-value properties](./properties_tutorial.qmd): learn how to use more complex metadata structured as key-value pairs.
+- [Exporting a vault](./export_tutorial.qmd): learn how to export the contents of a vault to Markdown files organized for a publishing system such as [Quarto](https://quarto.org).

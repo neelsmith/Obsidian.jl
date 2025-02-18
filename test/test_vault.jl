@@ -10,8 +10,8 @@ end
     @test v isa Vault
 
     wnames = wikinames(v)
-    @test length(wnames) == 4
-    for wname in ["Hammond letter 7", "Stephen Ayres", "Will of Stephen Ayres", "intro"]
+    @test length(wnames) == 5
+    for wname in ["Hammond letter 7", "Stephen Ayres", "Will of Stephen Ayres", "intro", "testebenezer"]
         @test wname in wnames
     end
 

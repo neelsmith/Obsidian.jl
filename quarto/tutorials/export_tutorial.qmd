@@ -3,3 +3,47 @@ engine: julia
 ---
 
 # Exporting a vault
+
+## Exporting a vault in three quick steps
+
+```{julia}
+#| echo: false
+#| output: false
+#| warning: false
+root = pwd() |> dirname |> dirname
+```
+
+
+**1. Create a `Vault`.** We've predefined a variable named `root` to point to the base directory of this repository, and will use a sample Obsidian vault in the repository's `test/data` directory.
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(root, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+```
+
+**2. Define a destination directory.**
+
+
+```{julia}
+#| output: false
+outputdir = joinpath(root, "scratch", "presidents-vault-export")
+```
+
+**3. Export the vault to the destination.**
+
+
+```{julia}
+#| output: false
+exportmd(v, outputdir)
+```
+
+## What changed?
+
+## Options
+
+- `omittags`
+- `omitdvtags`
+- `keepyaml`
+- `yaml`
+- `quarto`
