@@ -1,21 +1,85 @@
+---
+engine: julia
+---
+
 # Creating pure Markdown content from Obsidian notes
 
-Obsidian notes are just Markdown files, augmented with wikilink syntax and metadata tagging. They also support executable javascript blocks. You can extract  a
+Obsidian notes are just Markdown files, augmented with wikilink syntax and metadata tagging. They also support executable javascript blocks. You can extract more standard Markdown format for individual pages with the `mdcontent` function, and can export an entire vault to Markdown files with the `mdexport`. These can be handy if you want to reuse you Obsidian notes in other applications, or publish your vault as a web site with a Markdown-based publication system such as Quarto, Jekyll or Hugo.
 
-- `mdcontent`
-- `mdexport`
+In converting Obsidian notes to more general Markdown, `mdcontent` and `mdexport` observe these guidelines:
 
-
-- `dataview` blocks are omitted
 - wikilinks are rewritten as normal markdown links using relative or absolute paths
-- YAML may be stripped out or included
-- tags may be stripped out or included
-- hidden inline properties are always stripped; visible inline properties may be stripped or included
+- Obsidian tags may be stripped out or included
+- YAML may be included, or an alternate header may be included, or the Markdown can have no YAML header at all 
+- if your vault includes `dataview` key-value properties, hidden properties are always removed; visible inline properties and line-initial properties may be either stripped or included.
+- `dataview` blocks are omitted
+
+
+
+```{julia}
+#| echo: false
+#| warning: false
+#| output: false
+repo = pwd() |> dirname |> dirname
+```
+
+## Formatting Obsidian notes in Markdown
+
+We'll use the same sample vault used in other tutorials and guides with a handful of notes about a couple of U.S. Presidents.
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(repo, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+```
+
+### Source note
+
+To start with, let's look at the Obsidian source for the note on Abraham Lincoln. It includes a YAML tag, an inline tag, and two `dataview` properties.
+
+```{julia}
+srcfile = path(v, "Abraham Lincoln")
+read(srcfile,String) |> println
+```
+
+### Extracting Markdown content with `mdcontent`
+
+Next, let's extract Markdown content from the note using `mdcontent`. 
+In addition to the wikiname of the note, `mdcontent` needs the entire vault's context to handle content like wikilinks. It permits any combination of the following named parameters:
+
+
+- `keepyaml`
+- `yaml`
+- `omittags`
+- `omitdvtags`
+- `quarto`
+
+
+:::{.callout-note title="Formatted as markdown with default settings"}
+
+```{julia}
+abedefault = mdcontent(v, "Abraham Lincoln")
+
+using Markdown
+Markdown.parse(abedefault)
+```
+:::
+
+The default settings have stripped out the YAML header, Obsidian tags, and `dataview` properties. The wikilink has been formatted as a Markdown link using relative link syntax. 
+
+
+:::{.callout-note title="Formatted as markdown but keeping inline tags"}
+```{julia}
+abedefault = mdcontent(v, "Abraham Lincoln"; omittags = false)
+
+using Markdown
+Markdown.parse(abedefault)
+```
+:::
+
+
+```{julia}
+```
 
 ## Options
 
-- `omittags`
-- `omitdvtags`
-- `keepyaml`
-- `yaml`
-- `quarto`
