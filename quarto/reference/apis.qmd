@@ -126,3 +126,30 @@ using Obsidian
 @doc kvpairs
 ```
 :::
+
+
+
+### Exporting notes and vaults to Markdown
+ 
+
+`mdcontent`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc mdcontent
+```
+:::
+
+
+
+`exportmd`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc exportmd
+```
+:::
