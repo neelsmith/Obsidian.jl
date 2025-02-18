@@ -77,9 +77,3 @@ Markdown.parse(abedefault)
 ```
 :::
 
-
-```{julia}
-```
-
-## Options
-
