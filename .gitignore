@@ -6,3 +6,4 @@ scratch/
 docs/build/
 _site/
 _freeze/
+.DS_Store

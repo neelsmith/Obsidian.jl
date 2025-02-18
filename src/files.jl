@@ -3,7 +3,7 @@
 body section.
 $(SIGNATURES)
 """
-function parsefile(f)
+function parsefile(f; quarto = false)
     lines = readlines(f)
     if isempty(lines)
         (header = "", body = "")
@@ -19,7 +19,11 @@ function parsefile(f)
             bodylines = []
             idx = idx + 1
             for ln in lines[idx:end]
-                push!(bodylines, ln)
+                if quarto
+                    push!(bodylines, replace(ln, "```mermaid" => "```{mermaid}"))
+                else
+                    push!(bodylines, ln)
+                end
             end
             (   header = join(headerlines, "\n"), 
                 body = join(bodylines, "\n")
@@ -49,25 +53,3 @@ function parseyaml(s::T) where T <: AbstractString
     end
 end
 
-
-function stripdataview(s::AbstractString)
-    lines = split(s, "\n")
-    contents = []
-    incontent = true
-    #@info("Work from $(lines)")
-    for ln in lines
-       # @info("Look at $(ln)")
-
-        if startswith(ln, "```dataview")
-            incontent = false
-
-        elseif startswith(ln, "```") && (incontent == false)
-            incontent = true
-
-        elseif incontent
-            push!(contents, ln)
-        end
-    end
-    
-    join(contents,"\n")
-end

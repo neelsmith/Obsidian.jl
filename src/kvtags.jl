@@ -1,4 +1,44 @@
 
+"""Find pairings of pagenames and values for a given key
+in a key-value property.
+
+$(SIGNATURES)
+"""
+function valueslist(v::Vault, k)
+    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
+    for triple in filter(trip -> key(trip) == k, kvtriples(v))
+        push!(results,(wikiname = wikiname(triple), value = value(triple)))
+    end
+    results
+end
+
+"""Find pairings of pagenames and values for a given key
+in key-value properties for a list of pages.
+
+$(SIGNATURES)
+"""
+function valueslist(v::Vault, pages::Vector{String}, k)
+    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
+    for triple in filter(trip -> key(trip) == k && wikiname(trip) in pages, kvtriples(v))
+        push!(results,(wikiname = wikiname(triple), value = value(triple)))
+    end
+    results
+end
+
+
+
+
+function noteslist(vlt::Vault, k,v)::Vector{String}
+    results = String[]
+    @debug("Look for k/v $(k)/$(v)")
+    for triple in filter(trip -> key(trip) == k && value(trip) == v, kvtriples(vlt))
+        push!(results, wikiname(triple))
+    end
+    results
+end
+
+
+
 """Extract list of key-value pairs from file `f`. 
 The result is a Vector of named tuples with two fields,
 `k` and `v`.

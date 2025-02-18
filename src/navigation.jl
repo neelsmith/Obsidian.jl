@@ -1,3 +1,17 @@
+"""Find file path for wiki name.
+$(SIGNATURES)
+"""
+function path(v::Vault, wikiname; relative = false) 
+    
+    if haskey(v.filemap, wikiname)
+        relative ? "." * replace(v.filemap[wikiname], v.root => "" ) :   v.filemap[wikiname]
+    else
+        @warn("Failed to find path to $(wikiname)")
+        nothing
+    end
+end
+
+
 
 """Finds list of pages in Vault `v`
 that link to wikiname `wikiname`.
@@ -22,38 +36,5 @@ function linkson(v::Vault, wikiname)
     end
 end
 
-"""Finds list of pages in Vault `v`
-that are tagged with tag `t`.
-$(SIGNATURES)
-"""
-function tagged(v::Vault, t)
-    if haskey(v.intags, t)
-        v.intags[t]
-    else
-        String[]
-    end
-end
 
 
-"""Finds list of tags on page `wikiname` in Vault `v`.
-$(SIGNATURES)
-"""
-function tags(v::Vault, wikiname)
-    if haskey(v.outtags, wikiname)
-        v.outtags[wikiname]
-    else
-        String[]
-    end
-end
-
-
-"""Find file path for wiki name.
-$(SIGNATURES)
-"""
-function path(v::Vault, wikiname) 
-    if haskey(v.filemap, wikiname)
-        v.filemap[wikiname]
-    else
-        nothing
-    end
-end

@@ -16,7 +16,6 @@ function wikiname(triple::NoteKV)
 end
 
 
-
 """Identify the property key for a `NoteKV`.
 $(SIGNATURES)
 """

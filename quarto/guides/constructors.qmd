@@ -5,12 +5,62 @@ engine: julia
 # Options for creating `Vault`s
 
 
+```{julia}
+#| echo: false
+#| warning: false
+#| output: false
+repo = pwd() |> dirname |> dirname
+```
 
-::: {.callout-caution title="TBA"}
-Outline of contents to be added
+
+The `Vault` type represents the contents of an Obsidian vault, which is simply a directory tree of Markdown files. We've defined a variable `repo` with the value of the root directory of this repository, and will use a sample vault with a notes about a couple of U.S. Presidents. It has 13 notes altogether.
+
+
+```{julia}
+using Obsidian
+vaultdir = joinpath(repo, "test", "data", "presidents-vault")
+v = Vault(vaultdir)
+```
+
+::: {.callout-tip title="A shorthand"}
+The `Vault` constructor assumes a default value of the current working directory for the root of the Obsidian vault, so if you're working in the root directory of your Obsidian vault, you can omit the path value and achieve the same result:
+
+
+```{julia}
+cd(vaultdir)
+impliedvault = Vault()
+```
 :::
 
 
-- omit sections
-- dataview include/exclude dataview indexing
+## Omitting parts of your vault
 
+To exclude material when reading the contents of the Obsidian vault, use the optional `omit` parameter with a list of file or directory names. The default value of the `omit` parameter is `[Templates]`, a directory for configuring Obsidian's templating system rather than for keeping data.  Here we'll add the name of a subdirectory that has a single file in it.
+
+```{julia}
+v2 = Vault(vaultdir; omit = ["Templates", "census-districts"])
+```
+
+
+
+## Omitting `dataview`'s metadata tags
+
+
+By default, the `Vault` type includes an index of `dataview` key-value properties. You retrieve all of the key-value properties in the vault with the `kvtriples` function, grouping together the page's wikiname, the key and the value. There are 17 such properties in the example vault.
+
+```{julia}
+kvtriples(v)
+```
+
+
+If you prefer to exclude dataview indexing, use the `dataview` parameter with a value of `false`. When dataview indexing is turned off, `kvtriples` returns a value of `nothing`.
+
+```{julia}
+v3 = Vault(vaultdir; dataview=false)
+kvtriples(v3) |> isnothing
+```
+
+
+::: {.callout-caution }
+Omtting the `Templates` directory should have no side effects, but if you omit files or directories that other notes link to, the links will fail in the resulting Markdown.
+:::

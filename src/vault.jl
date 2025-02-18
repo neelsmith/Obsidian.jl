@@ -23,10 +23,8 @@ struct Vault
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
                 kvtriples(dir, omit = omit)
-
-                #kvpagesindex(dir, omit = omit),
-                #pageskvindex(dir, omit = omit)
             )
+            
         else
             new(
                 dir,
@@ -35,7 +33,6 @@ struct Vault
                 pagelinksindex(dir, omit = omit ),
                 tagpagesindex(dir, omit = omit),
                 pagetagsindex(dir, omit = omit),
-                nothing,
                 nothing
             )
         end
@@ -62,36 +59,48 @@ function show(io::IO, v::Vault)
 end
 
 
-"""Find all valid Obsidian names for files in a vault.
+"""Find wikinames for notes in a vault.
+Compare `notes(v::Vault)`.
 $(SIGNATURES)
 """
 function wikinames(v::Vault)::Vector{String}
     keys(mapfiles(v)) |> collect |> sort
 end
 
-"""Create a dictionary of valid Obsidian link names to full file paths.
+
+"""Find all dataview key-value annotations in a vault.
+$(SIGNATURES)
+"""
+function kvtriples(v::Vault)
+    v.kvtriples
+end
+
+
+"""Create a dictionary of wikinames to full file paths.
 $(SIGNATURES)
 """
 function mapfiles(v::Vault)
-    mapfiles(v.root)
+    v.filemap
 end
 
 """Beginning from directory `root`, create a dictionary
-of valid Obsidian link names to full file paths.
+of wikinames to full file paths.
 """
 function mapfiles(root; currmap = Dict(), omit = ["Templates"])
+    @debug("Mapping files to honor $(omit)")
     for f in readdir(root)
+        @debug("$(f) in omit? $(f in omit)")
         if startswith(f, ".") || f in omit
-            @debug("omit invisible $(f)")
+            @debug("omit invisible or excluded $(f)")
 
         elseif isdir(joinpath(root,f))
-            @debug("DIRECTORY: $(f) ")
+            @debug("Map subdirectory: $(f) ")
             currmap = mapfiles(joinpath(root, f), currmap = currmap, omit = omit)
             
         elseif endswith(f, ".md")
             linkname = replace(f, ".md" => "")
             currmap[linkname] = joinpath(root, f)
-            @debug("Link: $(linkname)")
+            @debug("Add md link: $(linkname)")
         else
             @debug("omit non-markdown file $(f)")
         end
@@ -158,7 +167,7 @@ function tagpagesindex(root, idx = Dict(); omit = ["Templates"])
     idx
 end
 
-"""Beginning from directory `root`, index wiki names for pages to all links on that page.
+"""Beginning from directory `root`, index wikinames for pages to all links on that page.
 $(SIGNATURES)
 """
 function pagelinksindex(root, idx = Dict(); omit = ["Templates"])
@@ -218,7 +227,7 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
 end
 
 
-"""Collect all key-value pairs annotating each Obsidian note in a directory.
+"""Collect all dataview key-value pairs annotating each Obsidian note in a directory.
 $(SIGNATURES)
 """
 function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
@@ -245,61 +254,7 @@ function kvtriples(root, triples = NoteKV[]; omit = ["Templates"] )
     triples
 end
 
-function kvtriples(v::Vault)
-    v.kvtriples
-    #=
-    results = NoteKV[]
 
-    for pg in wikinames(v)
-        for pr in kvpairs(v, pg)
-            if isempty(pr)
-            else
-                @info("Look at $(pr)")
-                push!(results, NoteKV(pg, pr.k, pr.v))
-            end
-        end
-    end
-    results
-    =#
-end
-
-#=
-function kvpagesindex(root, idx = Dict(); omit = ["Templates"])
-
-    for f in readdir(root)
-        if startswith(f, ".") || f in omit
-            @debug("omit invisible $(f)")
-
-        elseif isdir(joinpath(root,f))
-            @debug("DIRECTORY: $(f) ")
-            idx = kvpagesindex(joinpath(root, f), idx, omit = omit)
-           
-        elseif endswith(f, ".md")
-            filelinkname = replace(f, ".md" => "")
-            kvlinks = kvpairs(joinpath(root, f))
-          
-            if isempty(kvlinks)
-            else
-                for l in kvlinks
-                    if haskey(idx, l)
-                        oldreff = idx[l]
-                        idx[l] =  push!(oldreff, filelinkname)
-                    else
-                        idx[l] = [filelinkname]
-                    end
-                end 
-            end
-        else
-            @debug("omit non-markdown file $(f)")
-        end
-    end
-    idx
-
-end
-
-function pageskvindex(root, idx = Dict(); omit = ["Templates"])
-end
-=#
 """Find list of key-value pairs for a given note in a vault.
 The result is a Vector of named tuples with fields `k` and `v`.
 
@@ -321,6 +276,8 @@ function kvpairs(v::Vault, note)
     path(v, note) |> kvpairs
 end
 
+
+#=
 """Find list of key-value pairs for a given note in a vault.
 $(SIGNATURES)
 """
@@ -331,47 +288,14 @@ function kvmap(v::Vault)
         @info("pg $wn has $(kvlist)")
     end
 end
-
-
-"""Find pairings of pagenames and values for a given key
-in a key-value property.
-
-$(SIGNATURES)
-"""
-function valueslist(v::Vault, k)
-    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
-    for triple in filter(trip -> key(trip) == k, kvtriples(v))
-        push!(results,(wikiname = wikiname(triple), value = value(triple)))
-    end
-    results
-end
-
-
-function valueslist(v::Vault, pages::Vector{String}, k)
-    results = NamedTuple{(:wikiname, :value), Tuple{String, String}}[]
-    for triple in filter(trip -> key(trip) == k && wikiname(trip) in pages, kvtriples(v))
-        push!(results,(wikiname = wikiname(triple), value = value(triple)))
-    end
-    results
-end
-
-function noteslist(vlt::Vault, k,v)::Vector{String}
-    results = String[]
-    @info("Look for k/v $(k)/$(v)")
-    for triple in filter(trip -> key(trip) == k && value(trip) == v, kvtriples(vlt))
-        push!(results, wikiname(triple))
-    end
-    results
-
-end
-
+=#
 
 
 """True if s is a valid link string to a note in a vault.
 $(SIGNATURES)
 """
 function validlink(s, v::Vault)
-    islink(s) ? link(s) in wikinames(v) : false
+    iswikilink(s) ? link(s) in wikinames(v) : false
 end
 
 """True if s is a valid wikiname in a vault.
