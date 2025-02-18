@@ -31,3 +31,27 @@ for d in docwikinames
         @warn("Failed on $(d) with error $(e)")
     end
 end
+
+
+# Next, set up dummy pages for people.
+folks = filter(f -> startswith(f, "people"), relativepaths)
+folkswikinames = map(d -> replace(basename(d), ".md" => ""), folks)
+
+function makepersonpage(v, n, outputdir)
+    fname = replace(n, " " => "_") * ".qmd"
+    dest = joinpath(outputdir, "people", fname)
+    @info("$(dest)")
+    pagelines = ["---","engine: julia", "---","","", n, "", ""]
+
+    push!(pagelines, "## Page automatically generated")
+
+    pagetext = join(pagelines, "\n")
+
+    open(dest, "w") do io
+        write(io, pagetext)
+    end
+end
+
+for n in folkswikinames
+    makepersonpage(gen, n, outdir)
+end
