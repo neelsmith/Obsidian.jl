@@ -17,3 +17,13 @@ exportmd(v,census,outdir)
 
 
 
+### Big boy:
+
+vaultdir = "/Users/nsmith/Dropbox/_obsidian/family-history"
+v = Vault(vaultdir)
+v isa Vault
+
+
+outdir = joinpath(pwd(), "scratch", "debugbig")
+exportmd(v, outdir)
+

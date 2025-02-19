@@ -33,6 +33,8 @@ function link(s)
     if isnothing(m)
         nothing
     else
-        m.captures[1]
+        raw = m.captures[1]
+        pieces = split(raw, "|")
+        pieces[1]
     end
 end

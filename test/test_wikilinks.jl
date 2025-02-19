@@ -3,6 +3,9 @@
     s = "[[Abraham Lincoln]]"
     @test Obsidian.iswikilink(s)
     @test Obsidian.link(s) == "Abraham Lincoln"
+
+    namedlink = "[[Candace White|Candace]]"
+    @test Obsidian.link(namedlink) == "Candace White"
 end
 
 
