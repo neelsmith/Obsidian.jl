@@ -71,6 +71,7 @@ function mdcontent(v, pg; quarto = false, omitdvtags = true, omittags = true)
     else
         stripped
     end
+    @debug("Stripped text: $(stripped)")
     # linkify
     linked = linkify(v,pg,stripped; quarto = quarto)
 end
@@ -92,7 +93,7 @@ function linkify(v, pgname, text; quarto = false)
     linkkeys = linkson(v, pgname)
     @debug("Link keys $(linkkeys)")
     modifiedtext = text
-    for lnk in linkkeys
+    for lnk in linkkeys[1:1]
         @debug("Get relative ref for $(pgname) to $(lnk)")
         relativeref = relativelink(v, pgname, lnk)
         @debug("Relative ref is $(relativeref)")
@@ -102,7 +103,9 @@ function linkify(v, pgname, text; quarto = false)
         end
         @debug("Make links for $(lnk) to $(trgt)")
 
-        replacethis = "[[$(lnk)]]"
+
+        ## WHAT IF IT'S ALREADY A WIKI LINK?
+        replacethis = iswikilink(lnk) ? lnk : "[[$(lnk)]]"
         replacement = string("[", lnk, "](",trgt ,")")
         @debug("Linkfy string $(text)")
         replaced = []
