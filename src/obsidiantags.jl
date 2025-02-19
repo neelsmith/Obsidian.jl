@@ -76,14 +76,16 @@ function yamltags(yaml)
     if isempty(yaml)
         String[]
     else
-        
+        @debug("Look for tags in $(yaml)")
         yamldict = parseyaml(yaml)
         if isnothing(yamldict)
             @error("Function yamltags failed to parse yaml.")
             @error("Input was ($yaml)")
         elseif typeof(yamldict) <: Dict && haskey(yamldict, "tags")
             raw = yamldict["tags"] 
-            if typeof(raw) <: AbstractString
+            if isnothing(raw)
+                String[]
+            elseif typeof(raw) <: AbstractString
                 "#" * raw
             else
                 map(s -> "#" * s, raw)
