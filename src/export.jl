@@ -24,8 +24,9 @@ $(SIGNATURES)
 """
 function exportmd(v::Vault, pg::AbstractString, outputroot; 
     keepyaml = false, yaml = "", quarto = true, omitdvtags = true, omittags = true)
-
-    srcpath = path(v,pg; relative = true)    
+    @debug("Start to export page $(pg)")
+    srcpath = path(v,pg; relative = true)   
+    @debug("SRC $(srcpath)") 
     dest = joinpath(outputroot, srcpath)
     if quarto
         qmd = replace(dest, r".md$" => ".qmd")
@@ -89,32 +90,35 @@ end
 $(SIGNATURES)
 """
 function linkify(v, pgname, text; quarto = false)
-    @info("Linkify $(pgname)")
+    @debug("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    @info("Link keys $(linkkeys)")
+    @debug("Link keys $(linkkeys)")
     modifiedtext = text
     for lnk in linkkeys
         @debug("Get relative ref for $(pgname) to $(lnk)")
         relativeref = relativelink(v, pgname, lnk)
-        @debug("Relative ref is $(relativeref)")
-        trgt = replace(relativeref, " " => "_")
-        if quarto
-            trgt = replace(trgt, r".md$" => ".html")
-        end
-        @debug("Make links for $(lnk) to $(trgt)")
-
-
-        ## WHAT IF IT'S ALREADY A WIKI LINK?
-        replacethis = iswikilink(lnk) ? lnk : "[[$(lnk)]]"
-        replacement = string("[", lnk, "](",trgt ,")")
-        @debug("Linkfy string $(text)")
-        replaced = []
-        if ! isnothing(text)
-            for ln in split(text, "\n")
-                push!(replaced, replace(ln, replacethis => replacement))
+        if isnothing(relativeref)
+            @debug("Relative ref is $(relativeref)!")
+        else
+            trgt = replace(relativeref, " " => "_")
+            if quarto
+                trgt = replace(trgt, r".md$" => ".html")
             end
+            @debug("Make links for $(lnk) to $(trgt)")
+
+
+            ## WHAT IF IT'S ALREADY A WIKI LINK?
+            replacethis = iswikilink(lnk) ? lnk : "[[$(lnk)]]"
+            replacement = string("[", lnk, "](",trgt ,")")
+            @debug("Linkfy string $(text)")
+            replaced = []
+            if ! isnothing(text)
+                for ln in split(text, "\n")
+                    push!(replaced, replace(ln, replacethis => replacement))
+                end
+            end
+            modifiedtext = join(replaced,"\n")
         end
-        modifiedtext = join(replaced,"\n")
     end
     modifiedtext
 end
@@ -190,20 +194,36 @@ end
 $(SIGNATURES)
 """
 function relativepath(s1, s2)
-    @info("Relative $(s1) to $(s2)")
-    if isempty(s1) || isempty(s2)
+    skipit = false
+    @debug("Relative $(s1) to $(s2)")
+    if isnothing(s1)
+        skipit = true
+    end
+    if isnothing(s2)
+        skipit = true
+    end
+
+    @debug("Skip it? $(skipit)")
+
+    if skipit
+        @debug("Something was empty or nothing.")
         nothing
 
     else
         @debug("REL PATHS FOR $(s1), $(s2)")
         parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
         parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
+        @debug("Pieces $(parts1), $(parts2)")
         i = 1
         done = false
+        
         while ! done
-            @debug("$(i): ")
+            @debug("$(i): $(parts1[i]), $(parts2[i]) ")
             if parts1[i] == parts2[i]
                 i = i + 1
+                if (i > length(parts1)) || (i > length(parts2))
+                    done = true
+                end
                 @debug("i now $(i)")
             else
                 done = true

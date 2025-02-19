@@ -2,9 +2,11 @@
 $(SIGNATURES)
 """
 function path(v::Vault, wikiname; relative = false) 
+    @debug("Looking for path to $(wikiname)")
+    trimmedname = split(wikiname, "|")[1]
     
-    if haskey(v.filemap, wikiname)
-        relative ? "." * replace(v.filemap[wikiname], v.root => "" ) :   v.filemap[wikiname]
+    if haskey(v.filemap, trimmedname)
+        relative ? "." * replace(v.filemap[trimmedname], v.root => "" ) :   v.filemap[trimmedname]
     else
         @warn("Failed to find path to $(wikiname)")
         nothing
