@@ -89,11 +89,11 @@ end
 $(SIGNATURES)
 """
 function linkify(v, pgname, text; quarto = false)
-    @debug("Linkify $(pgname)")
+    @info("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    @debug("Link keys $(linkkeys)")
+    @info("Link keys $(linkkeys)")
     modifiedtext = text
-    for lnk in linkkeys[1:1]
+    for lnk in linkkeys
         @debug("Get relative ref for $(pgname) to $(lnk)")
         relativeref = relativelink(v, pgname, lnk)
         @debug("Relative ref is $(relativeref)")
@@ -109,8 +109,10 @@ function linkify(v, pgname, text; quarto = false)
         replacement = string("[", lnk, "](",trgt ,")")
         @debug("Linkfy string $(text)")
         replaced = []
-        for ln in split(text, "\n")
-            push!(replaced, replace(ln, replacethis => replacement))
+        if ! isnothing(text)
+            for ln in split(text, "\n")
+                push!(replaced, replace(ln, replacethis => replacement))
+            end
         end
         modifiedtext = join(replaced,"\n")
     end
@@ -188,34 +190,39 @@ end
 $(SIGNATURES)
 """
 function relativepath(s1, s2)
-    @debug("REL PATHS FOR $(s1), $(s2)")
-    parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
-    parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
-    i = 1
-    done = false
-    while ! done
-        @debug("$(i): ")
-        if parts1[i] == parts2[i]
-            i = i + 1
-            @debug("i now $(i)")
-        else
-            done = true
+    @info("Relative $(s1) to $(s2)")
+    if isempty(s1) || isempty(s2)
+        nothing
+
+    else
+        @debug("REL PATHS FOR $(s1), $(s2)")
+        parts1 = filter(piece -> ! isempty(piece), split(s1, "/"))
+        parts2 = filter(piece -> ! isempty(piece), split(s2, "/"))
+        i = 1
+        done = false
+        while ! done
+            @debug("$(i): ")
+            if parts1[i] == parts2[i]
+                i = i + 1
+                @debug("i now $(i)")
+            else
+                done = true
+            end
         end
-    end
-    lipomena1 = parts1[i:end]
-    lipomena2 = parts2[i:end]
-  
-    l1 = length(lipomena1)
-    #l2 = length(lipomena2)
+        lipomena1 = parts1[i:end]
+        lipomena2 = parts2[i:end]
     
-    prefix = repeat("../", l1)
-    result = string(prefix, join(lipomena2,"/"))
-    @debug(result)
+        l1 = length(lipomena1)
+        #l2 = length(lipomena2)
         
-    @debug("What's left: ")
-    @debug("$(lipomena1)") 
-    @debug("$(lipomena2)")
-    result
-    
+        prefix = repeat("../", l1)
+        result = string(prefix, join(lipomena2,"/"))
+        @debug(result)
+            
+        @debug("What's left: ")
+        @debug("$(lipomena1)") 
+        @debug("$(lipomena2)")
+        result
+    end
 end
 
