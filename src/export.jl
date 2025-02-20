@@ -236,7 +236,8 @@ function relativepath(s1, s2)
         #l2 = length(lipomena2)
         
         prefix = repeat("../", l1)
-        result = string(prefix, join(lipomena2,"/"))
+        relative = string(prefix, join(lipomena2,"/"))
+        result = replace(relative, r"^\.\./" => "./")
         @debug(result)
             
         @debug("What's left: ")
