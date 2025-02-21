@@ -92,7 +92,7 @@ $(SIGNATURES)
 function linkify(v, pgname, text; quarto = false)
     @debug("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    @info("Link keys $(linkkeys)")
+    @debug("Link keys $(linkkeys)")
 
     modifiedtext = text
     for lnk in linkkeys
