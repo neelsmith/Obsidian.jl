@@ -9,3 +9,18 @@
 end
 
 
+@testset "Test multiple wikilinks" begin
+
+
+    textselection = """refersto::[[Horatio Nelson White]]
+refersto::[[Susan Spaulding]]
+
+
+## Transcription
+
+Name of Groom White, Horatio N.
+
+Name of Bride Spaulding, Susan B.
+"""
+
+end

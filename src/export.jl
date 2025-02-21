@@ -92,13 +92,19 @@ $(SIGNATURES)
 function linkify(v, pgname, text; quarto = false)
     @debug("Linkify $(pgname)")
     linkkeys = linkson(v, pgname)
-    @debug("Link keys $(linkkeys)")
+    @info("Link keys $(linkkeys)")
+
     modifiedtext = text
     for lnk in linkkeys
-        @debug("Get relative ref for $(pgname) to $(lnk)")
+        
         relativeref = relativelink(v, pgname, lnk)
+
+        @debug("Get relative ref for $(pgname) to $(lnk)")
+        @debug("Ref for $(lnk) was $(relativeref)")
+
         if isnothing(relativeref)
             @debug("Relative ref is $(relativeref)!")
+
         else
             trgt = replace(relativeref, " " => "_")
             if quarto
@@ -110,11 +116,16 @@ function linkify(v, pgname, text; quarto = false)
             ## WHAT IF IT'S ALREADY A WIKI LINK?
             replacethis = iswikilink(lnk) ? lnk : "[[$(lnk)]]"
             replacement = string("[", lnk, "](",trgt ,")")
-            @debug("Linkfy string $(text)")
+
+            @debug("Linkfy string $(modifiedtext)")
             replaced = []
-            if ! isnothing(text)
-                for ln in split(text, "\n")
-                    push!(replaced, replace(ln, replacethis => replacement))
+            if ! isnothing(modifiedtext)
+                for ln in split(modifiedtext, "\n")
+                    @debug("Check for $(replacethis) in $(ln)")
+                    replaceresult = replace(ln, replacethis => replacement)
+                    @debug("Got this $(replaceresult)")
+                    push!(replaced, replaceresult)
+                    @debug("add to results $(replaced)")
                 end
             end
             modifiedtext = join(replaced,"\n")
