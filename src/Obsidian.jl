@@ -25,6 +25,7 @@ export wikinames, links, link, validlink
 export pagestotags, tagstopages
 export path
 export linkson, linkedto
+export tagstopages, pagestotags
 export tags, tagged
 export kvtriples, valueslist, noteslist
 
