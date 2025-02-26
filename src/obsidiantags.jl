@@ -10,6 +10,23 @@ function tagged(v::Vault, t)
     end
 end
 
+
+
+"""Returns the dictionary of unique tags to pages where the tag occurs.
+$(SIGNATURES)
+"""
+function tagstopages(v::Vault)
+    v.intags
+end
+
+"""Returns the dictionary of pages to tags occuring on the page.
+$(SIGNATURES)
+"""
+function pagestotags(v::Vault)
+    v.outtags
+end
+
+
 """Finds list of tags on page `wikiname` in Vault `v`.
 $(SIGNATURES)
 """
