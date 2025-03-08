@@ -52,3 +52,8 @@ end
     expectednames = map(n -> wikiname(n), expectednotes)
     @test wikinames(v) == expectednames
 end
+
+@testset "Test identifying bad links" begin
+    v = Vault(joinpath(pwd(), "data", "presidents-vault"))
+
+end

@@ -186,7 +186,7 @@ function stripdataview(s::AbstractString)
     for ln in lines
        @debug("Look at $(ln)")
 
-        if startswith(ln, "```dataview")
+        if startswith(strip(ln), "```dataview")
             incontent = false
 
         elseif startswith(ln, "```") && (incontent == false)

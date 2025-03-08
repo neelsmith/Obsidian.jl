@@ -38,3 +38,15 @@ function link(s)
         pieces[1]
     end
 end
+
+
+"""Find all links referring to non-existent note.
+$(SIGNATURES)
+"""
+function missinglinks(v)
+    linkvalues = values(v.outlinks) |> Iterators.flatten |> collect |> unique
+    pagenames = wikinames(v)
+    filter(linkvalues) do lnk
+        ! (lnk in pagenames)
+    end
+end
