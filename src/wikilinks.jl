@@ -6,7 +6,8 @@ function links(s)
     linklist = String[]
     for ln in split(s,"\n")
         for m in eachmatch(linkre, ln)
-            push!(linklist, m.captures[1])
+            linkparts = split(m.captures[1], "|")
+            push!(linklist, linkparts[1])
         end
     end
     linklist

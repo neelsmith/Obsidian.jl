@@ -57,10 +57,7 @@ end
 $(SIGNATURES)
 """
 function tags(f)
-    @debug("Call parsefile for tagging")
     parsed = parsefile(f)
-    @debug("Tagging $(f)")
-    @debug("Body to parse: $(parsed.body)")
     try
         hdrtags = yamltags(parsed.header)
         bodytags = mdtags(parsed.body)
@@ -77,7 +74,6 @@ $(SIGNATURES)
 """
 function mdtags(md)
     taglist = String[]
-    #tagre = r"(#[^#\s ]+) "
      tagre = r"(#[^#\s ]+)"
      for ln in split(md,"\n")
         for m in eachmatch(tagre, ln)

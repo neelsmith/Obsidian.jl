@@ -40,7 +40,7 @@ function exportmd(v::Vault, pg::AbstractString, outputroot;
 
     mdtext = mdcontent(v,pg; quarto = quarto, omitdvtags = omitdvtags, omittags = omittags)
     finaltext = if keepyaml
-        srccontents = parsefile(path(v, pg))
+        srccontents = parsefile(path(v, pg); quarto = quarto)
         string("---\n", srccontents.header, "---\n\n", mdtext)
     else
         yaml * mdtext
@@ -63,8 +63,7 @@ function mdcontent(v, pg; quarto = false, omitdvtags = true, omittags = true)
     srccontents = parsefile(path(v, pg); quarto = quarto)
     # strip dataview
     nodv = stripdataview(srccontents.body)
-    # strip dataveiw tags
-    @debug("Page before stripping tags: $(nodv)")
+    # strip dataview tags
     stripped = stripdvtags(nodv; omitdvtags = omitdvtags)
     # strip Obsidian tags
     stripped = if omittags
@@ -72,7 +71,6 @@ function mdcontent(v, pg; quarto = false, omitdvtags = true, omittags = true)
     else
         stripped
     end
-    @debug("Stripped text: $(stripped)")
     # linkify
     linked = linkify(v,pg,stripped; quarto = quarto)
 end
