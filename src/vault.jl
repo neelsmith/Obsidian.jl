@@ -206,7 +206,10 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
             
         elseif endswith(f, ".md")
             filelinkname = replace(f, ".md" => "")
-            filelinks = links(String(read(joinpath(root, f))))
+
+            # PARSE FILE HERE
+            parsedfile = joinpath(root, f) |> parsefile
+            filelinks = links(parsedfile.body)
           
             if isempty(filelinks)
             else
