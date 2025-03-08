@@ -24,3 +24,11 @@ Name of Bride Spaulding, Susan B.
 """
 
 end
+
+
+
+@testset "Test identifying bad links" begin
+    v = Vault(joinpath(pwd(), "data", "presidents-vault"))
+    badlinks = missinglinks(v)
+    @test badlinks == ["an error"]
+end

@@ -184,7 +184,7 @@ function stripdataview(s::AbstractString)
     incontent = true
     @debug("Work from $(lines)")
     for ln in lines
-       @warn("Look at $(ln)")
+       @debug("Look at $(ln)")
 
         if startswith(strip(ln), "```dataview")
             incontent = false
