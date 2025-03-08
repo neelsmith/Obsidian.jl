@@ -181,7 +181,8 @@ function pagelinksindex(root, idx = Dict(); omit = ["Templates"])
             
         elseif endswith(f, ".md")
             wikiname = replace(f, ".md" => "")
-            filelinks = links(String(read(joinpath(root, f))))
+            parsedfile = joinpath(root, f) |> parsefile
+            filelinks = links(parsedfile.body)
             idx[wikiname] = filelinks
       
         else
@@ -207,7 +208,6 @@ function linkpagesindex(root, idx = Dict(); omit = ["Templates"])
         elseif endswith(f, ".md")
             filelinkname = replace(f, ".md" => "")
 
-            # PARSE FILE HERE
             parsedfile = joinpath(root, f) |> parsefile
             filelinks = links(parsedfile.body)
           
