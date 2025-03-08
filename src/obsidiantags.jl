@@ -57,8 +57,10 @@ end
 $(SIGNATURES)
 """
 function tags(f)
+    @debug("Call parsefile for tagging")
     parsed = parsefile(f)
-
+    @debug("Tagging $(f)")
+    @debug("Body to parse: $(parsed.body)")
     try
         hdrtags = yamltags(parsed.header)
         bodytags = mdtags(parsed.body)
